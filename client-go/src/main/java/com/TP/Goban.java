@@ -22,13 +22,13 @@ public class Goban extends Pane {
     }
 
     private void initBoard() {
-        for (int i = 1; i < size-1; i++) {
-            for (int j = 1; j < size-1; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 Rectangle cell = new Rectangle(i * cellSize, j * cellSize, cellSize, cellSize);
                 cell.setFill(Color.BLACK);
 
                 getChildren().add(cell);
-                if (i > 0 && i < size - 1 && j > 0 && j < size - 1) {
+                if (i >= 0 && i < size  && j >= 0 && j < size ) {
                     double graySquareSize = 13;
                     Rectangle graySquare1 = new Rectangle(i * cellSize, j * cellSize, graySquareSize, graySquareSize);
                     Rectangle graySquare2 = new Rectangle((i + 1) * cellSize - graySquareSize, j * cellSize, graySquareSize, graySquareSize);
@@ -59,12 +59,14 @@ public class Goban extends Pane {
         double cellX = (row - 1) * cellSize + cellSize / 2;
         double cellY = (col - 1) * cellSize + cellSize / 2;
 
-        // Adjust the stone's position to be at the center of the black rectangle
-        stone.setCenterX(cellX);
-        stone.setCenterY(cellY);
-        getChildren().add(stone);
+        // Check if the mouse click occurred within the bounds of the board
+        if (cellX >=2 && cellX < size * cellSize && cellY >=2  && cellY < size * cellSize) {
+            // Adjust the stone's position to be at the center of the black rectangle
+            stone.setCenterX(cellX);
+            stone.setCenterY(cellY);
+            getChildren().add(stone);
+        }
     }
-
     private double snapToCell(double coord) {
         return Math.round(coord / cellSize) * cellSize;
     }
