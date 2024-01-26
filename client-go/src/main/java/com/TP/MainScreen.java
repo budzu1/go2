@@ -69,11 +69,11 @@ public class MainScreen extends Parent {
                     break;
             }
             Goban goban = new Goban(boardSize, cellSize);
+            goban.createGame(goban);
             //zamina wartosci tabeli zeby sprawdzic czy wczytuje odpowiednio kamienie na plansze
             //goban.getBoard().get(0).set(0, 1);
             //goban.getBoard().get(boardSize-1).set(boardSize-1 , 2);
-            goban.createGame(goban);
-
+            //goban.updateGoban();
         });
 
     }
