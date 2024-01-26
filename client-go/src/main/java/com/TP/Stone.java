@@ -15,4 +15,5 @@ public class Stone extends Circle {
     private double snapToCell(double coord) {
         return Math.round(coord / cellSize) * cellSize;
     }
+
 }

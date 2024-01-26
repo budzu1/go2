@@ -3,13 +3,11 @@ package com.TP;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.paint.Color;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+
 
 public class MainScreen extends Parent {
     private static final int BUTTON_SIZE = 50;
@@ -48,17 +46,36 @@ public class MainScreen extends Parent {
     }
 
     private void createGame(Stage primaryStage) {
-        int boardSize = 19;
-        double cellSize = 30;
-        Goban goban = new Goban(boardSize, cellSize);
-        StackPane root = new StackPane();
-        root.getChildren().add(goban);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Small (9x9)", "Medium (13x13)", "Large (19x19)");
+        dialog.setTitle("Choose Board Size");
+        dialog.setHeaderText("Select the board size:");
+        dialog.setContentText("Board Size:");
 
-        Scene scene = new Scene(root, boardSize * cellSize, boardSize * cellSize);
+        // Pobranie wyboru użytkownika
+        dialog.showAndWait().ifPresent(result -> {
+            int boardSize;
+            double cellSize = 30;
 
-        primaryStage.setTitle("Go Game");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            switch (result) {
+                case "Small (9x9)":
+                    boardSize = 9;
+                    break;
+                case "Medium (13x13)":
+                    boardSize = 13;
+                    break;
+                case "Large (19x19)":
+                default:
+                    boardSize = 19;
+                    break;
+            }
+            Goban goban = new Goban(boardSize, cellSize);
+            //zamina wartosci tabeli zeby sprawdzic czy wczytuje odpowiednio kamienie na plansze
+            //goban.getBoard().get(0).set(0, 1);
+            //goban.getBoard().get(boardSize-1).set(boardSize-1 , 2);
+            goban.createGame(goban);
+
+        });
+
     }
 
 
