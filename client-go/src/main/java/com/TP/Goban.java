@@ -62,7 +62,7 @@ public class Goban extends Pane {
 
     }
 
-    //uzywane w createGame
+    //update planszy i kamieni za pomoca tablicy
     public void updateGoban() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -75,9 +75,7 @@ public class Goban extends Pane {
         }
     }
 
-    /*w sumie to nie wiem czy bedzie potrzebne bo
-    zapisujemy wartosci kamieni do tabeli i pozniej
-    za pomoca createGame tworzymy plansze z kamieniami
+    /*w sumie to nie wiem czy bedzie potrzebne bo mamy updateGoban()
      */
     public double getStoneX(int row){
 
