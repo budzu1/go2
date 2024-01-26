@@ -1,5 +1,5 @@
 package com.tp.goserver;
 
-public class GoGame implements IGo {
+public class GoGame {
 
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.ArrayList;
 
 @Entity
 public class Game {
@@ -14,6 +15,7 @@ public class Game {
     private String opponent; // Opponent player or bot
     private boolean bot; // True if the opponent is a bot
     private String status; // Status of the game (e.g., "waiting", "in progress", "finished")
+    private int size;
 
     public Long getId() {
         return id;
@@ -58,5 +60,4 @@ public class Game {
     public Game() {
 
     }
-
 }
