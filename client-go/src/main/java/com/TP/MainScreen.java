@@ -80,23 +80,24 @@ public class MainScreen extends Parent {
             // sygnał do serwera
             sendCreateGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getSize());
 
-            Goban goban = new Goban(boardSize, cellSize);
+            Goban goban = new Goban(boardSize, cellSize,1);
             goban.createGame(goban);
         });
 
     }
 
     private void joinGame(Stage primaryStage) {
-        primaryStage.setTitle("Twoja Klasa");
+
+        primaryStage.setTitle("Join game");
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10));
 
-        Label label = new Label("Podaj ID gry:");
+        Label label = new Label("Write game ID:");
 
         TextField textField = new TextField();
 
-        javafx.scene.control.Button confirmButton = new javafx.scene.control.Button("Potwierdź");
+        javafx.scene.control.Button confirmButton = new javafx.scene.control.Button("Confirm");
         confirmButton.setOnAction(e -> {
             try {
                 gameId = Long.parseLong(textField.getText());
@@ -106,6 +107,7 @@ public class MainScreen extends Parent {
             } catch (NumberFormatException ex) {
             }
         });
+        int boardSize = GameSession.getInstance().getSize();
 
         layout.getChildren().addAll(label, textField, confirmButton);
 
@@ -115,6 +117,8 @@ public class MainScreen extends Parent {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
 
         primaryStage.showAndWait();
+        Goban goban = new Goban(boardSize, 30,2);
+        goban.createGame(goban);
     }
 
     private void rollDice() {
