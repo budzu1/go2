@@ -6,7 +6,15 @@ public final class RuleChecker implements IRuleChecker {
     private Board board;
     private int size;
 
-    public boolean ifCanPlace(Board board, int i, int j) {return true;}
+    public boolean ifCanPlace(Board board, int col, int row) {
+
+        if(board.getStones().get(col).get(row)!=Stone.EMPTY)
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public RuleChecker(int size){
         this.size=size;
