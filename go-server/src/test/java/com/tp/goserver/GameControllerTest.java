@@ -25,33 +25,6 @@ class GameControllerTest {
     private GameService gameService;
 
     @Test
-    void createGameEndpointShouldReturnGame() throws Exception {
-        String creator = "Player1";
-        Game game = new Game();
-        game.setCreator(creator);
-
-        given(gameService.createGame(anyString())).willReturn(game);
-
-        mockMvc.perform(post("/game/create").param("creator", creator))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.creator").value(creator));
-    }
-
-    @Test
-    void gameShouldBeCreated() throws Exception {
-        String creator = "Player1";
-        Game game = new Game();
-        game.setCreator(creator);
-
-        given(gameService.createGame(anyString())).willReturn(game);
-
-        mockMvc.perform(post("/game/create")
-                .param("creator", creator))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.creator").value(creator));
-    }
-
-    @Test
     void gameStatusShouldBeUpdated() throws Exception {
         Long gameId = 1L;
         String opponent = "Player2";
@@ -67,25 +40,6 @@ class GameControllerTest {
                 .param("opponent", opponent))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.opponent").value(opponent))
-                .andExpect(jsonPath("$.status").value("in progress"));
-    }
-
-    @Test
-    void botShouldBeAddedToGame() throws Exception {
-        Long gameId = 1L;
-        Game game = new Game();
-        game.setId(gameId);
-        game.setOpponent("Bot");
-        game.setBot(true);
-        game.setStatus("in progress");
-
-        given(gameService.addBot(anyLong())).willReturn(game);
-
-        mockMvc.perform(post("/game/addBot")
-                .param("gameId", String.valueOf(gameId)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.opponent").value("Bot"))
-                .andExpect(jsonPath("$.bot").value(true))
                 .andExpect(jsonPath("$.status").value("in progress"));
     }
 

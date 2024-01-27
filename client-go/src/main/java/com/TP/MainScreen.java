@@ -1,5 +1,7 @@
 package com.TP;
 
+import java.util.concurrent.CompletableFuture;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -8,9 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 public class MainScreen extends Parent {
     private static final int BUTTON_SIZE = 50;
+
     public MainScreen(final Stage primaryStage) {
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
@@ -68,18 +70,20 @@ public class MainScreen extends Parent {
                     boardSize = 19;
                     break;
             }
+
+            // sygnał do serwera
+            sendCreateGame(GameSession.getInstance().getUserId());
+
             Goban goban = new Goban(boardSize, cellSize);
             goban.createGame(goban);
-            //zamina wartosci tabeli zeby sprawdzic czy wczytuje odpowiednio kamienie na plansze
-            //goban.getBoard().get(0).set(0, 1);
-            //goban.getBoard().get(boardSize-1).set(boardSize-1 , 2);
-            //goban.updateGoban();
+            // zamina wartosci tabeli zeby sprawdzic czy wczytuje odpowiednio kamienie na
+            // plansze
+            // goban.getBoard().get(0).set(0, 1);
+            // goban.getBoard().get(boardSize-1).set(boardSize-1 , 2);
+            // goban.updateGoban();
         });
 
     }
-
-
-
 
     private void joinGame() {
         // Implement logic to join a game via server
@@ -89,4 +93,20 @@ public class MainScreen extends Parent {
         // Implement logic to roll dice via server
     }
 
+    private static void sendCreateGame(String creator) {
+        CompletableFuture<String> responseFuture = NetworkUtil.sendPostRequest("/game/create", "creator", creator);
+
+        responseFuture.thenAccept(response -> {
+            try {
+                long gameId = Long.parseLong(response);
+                System.out.println("Game ID: " + gameId);
+                GameSession.getInstance().setGameId(gameId);
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing game ID: " + response);
+            }
+        }).exceptionally(ex -> {
+            System.err.println("An error occurred: " + ex.getMessage());
+            return null;
+        });
+    }
 }

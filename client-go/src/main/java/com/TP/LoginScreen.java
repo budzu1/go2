@@ -24,7 +24,10 @@ public class LoginScreen extends Parent {
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                loginUser(usernameField.getText(), primaryStage);
+                String tempLogin = usernameField.getText();
+                loginUser(tempLogin, primaryStage);
+                GameSession session = GameSession.getInstance();
+                session.setUserId(tempLogin);
             }
         });
 
