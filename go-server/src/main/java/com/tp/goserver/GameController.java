@@ -22,17 +22,17 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Long> createGame(@RequestParam String creator) {
-        Game newGame = gameService.createGame(creator);
+    public ResponseEntity<Long> createGame(@RequestParam String creator, @RequestParam int size) {
+        Game newGame = gameService.createGame(creator, size);
         Long id = newGame.getId();
         System.out.println(id);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Game> joinGame(@RequestParam Long gameId, @RequestParam String opponent) {
+    public ResponseEntity<Integer> joinGame(@RequestParam Long gameId, @RequestParam String opponent) {
         Game updatedGame = gameService.joinGame(gameId, opponent);
-        return new ResponseEntity<>(updatedGame, HttpStatus.OK);
+        return new ResponseEntity<>(updatedGame.getSize(), HttpStatus.OK);
     }
 
     @PostMapping("/addBot")

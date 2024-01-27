@@ -75,17 +75,15 @@ public class MainScreen extends Parent {
                     break;
             }
 
+            GameSession.getInstance().setSize(boardSize);
+
             // sygnał do serwera
-            sendCreateGame(GameSession.getInstance().getUserId());
+            sendCreateGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getSize());
 
             Goban goban = new Goban(boardSize, cellSize);
             goban.createGame(goban);
         });
 
-    }
-
-    private void joinGame() {
-        // Implement logic to join a game via server
     }
 
     private void joinGame(Stage primaryStage) {
@@ -103,6 +101,8 @@ public class MainScreen extends Parent {
             try {
                 gameId = Long.parseLong(textField.getText());
                 primaryStage.close();
+                GameSession.getInstance().setGameId(gameId);
+                sendJoinGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getGameId());
             } catch (NumberFormatException ex) {
             }
         });
@@ -121,8 +121,9 @@ public class MainScreen extends Parent {
         // Implement logic to roll dice via server
     }
 
-    private static void sendCreateGame(String creator) {
-        CompletableFuture<String> responseFuture = NetworkUtil.sendPostRequest("/game/create", "creator", creator);
+    private void sendCreateGame(String creator, int size) {
+        CompletableFuture<String> responseFuture = NetworkUtil.sendDoublePostRequest("/game/create", "creator", creator,
+                "size", Integer.toString(size));
 
         responseFuture.thenAccept(response -> {
             try {
@@ -140,5 +141,23 @@ public class MainScreen extends Parent {
 
     public Long getGameId(Long gameId) {
         return gameId;
+    }
+
+    private void sendJoinGame(String login, Long gameId) {
+        CompletableFuture<String> responseFuture = NetworkUtil.sendDoublePostRequest("/game/join", "gameId",
+                Long.toString(gameId), "opponent", login);
+
+        responseFuture.thenAccept(response -> {
+            try {
+                int size = Integer.parseInt(response);
+                System.out.println("Size: " + size);
+                GameSession.getInstance().setSize(size);
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing game ID: " + response);
+            }
+        }).exceptionally(ex -> {
+            System.err.println("An error occurred: " + ex.getMessage());
+            return null;
+        });
     }
 }

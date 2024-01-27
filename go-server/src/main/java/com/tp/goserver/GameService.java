@@ -28,11 +28,13 @@ public class GameService {
         }
     }
 
-    public Game createGame(String creator) {
+    public Game createGame(String creator, int size) {
         Game newGame = new Game();
+        newGame.setSize(size);
         newGame.setCreator(creator);
         newGame.setStatus("waiting"); // Initial status is 'waiting' for an opponent
         newGame.setBot(false); // By default, the game is not with a bot
+
         return gameRepository.save(newGame);
     }
 

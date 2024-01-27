@@ -38,7 +38,7 @@ class GameServiceTest {
 
         when(gameRepository.save(any(Game.class))).thenReturn(game);
 
-        Game createdGame = gameService.createGame(creator);
+        Game createdGame = gameService.createGame(creator, 9);
 
         assertNotNull(createdGame);
         assertEquals(creator, createdGame.getCreator());
@@ -80,7 +80,7 @@ class GameServiceTest {
 
         when(gameRepository.save(any(Game.class))).thenReturn(game);
 
-        Game createdGame = gameService.createGame(creator);
+        Game createdGame = gameService.createGame(creator, 9);
 
         assertNotNull(createdGame);
         assertEquals(creator, createdGame.getCreator());

@@ -4,6 +4,7 @@ public final class GameSession {
     private static GameSession instance;
     private Long gameId;
     private String login;
+    private int size;
 
     // Private constructor to prevent instantiation
     private GameSession() {
@@ -33,4 +34,13 @@ public final class GameSession {
     public void setUserId(String login) {
         this.login = login;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
 }

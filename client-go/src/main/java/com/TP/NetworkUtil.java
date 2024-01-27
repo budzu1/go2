@@ -26,4 +26,21 @@ public class NetworkUtil {
                     }
                 });
     }
+
+    public static CompletableFuture<String> sendDoublePostRequest(String endpoint, String param, String value,
+            String param2, String value2) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(SERVER_URL + endpoint))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(HttpRequest.BodyPublishers.ofString(param + "=" + value + "&" + param2 + "=" + value2))
+                .build();
+
+        return httpClient.sendAsync(request, BodyHandlers.ofString())
+                .thenApply(new Function<HttpResponse<String>, String>() {
+                    @Override
+                    public String apply(HttpResponse<String> response) {
+                        return response.body();
+                    }
+                });
+    }
 }
