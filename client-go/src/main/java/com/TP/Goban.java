@@ -13,11 +13,14 @@ import java.util.ArrayList;
 public class Goban extends Pane {
     private final int size;
     private final double cellSize;
+    private final int color;
     public ArrayList<ArrayList<Integer>> board;
-    public Goban(int size, double cellSize) {
+
+    public Goban(int size, double cellSize,int color) {
         this.size = size;
         this.cellSize = cellSize;
         this.board = new ArrayList<>();
+        this.color=color;
 
         for (int i = 0; i < size; i++) {
             ArrayList<Integer> row = new ArrayList<>();
@@ -33,17 +36,10 @@ public class Goban extends Pane {
             int row = (int) Math.floor(e.getX() / cellSize) + 1;
             int col = (int) Math.floor(e.getY() / cellSize) + 1;
             if(board.get(col-1).get(row-1)==0){
-                board.get(col-1).set(row-1, 1);
+                board.get(col-1).set(row-1, color);
                 updateGoban();
                 getStoneX(row);
                 getStoneY(col);
-
-                for (int i = 0; i < size; i++) {
-                    for (int j = 0; j < size; j++) {
-                     System.out.print(board.get(i).get(j) + " ");
-                 }
-                    System.out.println();
-                   }
             }
         });
     }
