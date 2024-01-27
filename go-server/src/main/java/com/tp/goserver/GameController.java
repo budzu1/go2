@@ -42,7 +42,8 @@ public class GameController {
     }
 
     @PostMapping("/makeMove")
-    public ResponseEntity<Boolean> makeMove(@RequestParam int x, @RequestParam int y, @RequestParam String login) {
+    public ResponseEntity<Boolean> makeMove(@RequestParam int x, @RequestParam int y, @RequestParam String login,
+            @RequestParam Long gameId) {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
