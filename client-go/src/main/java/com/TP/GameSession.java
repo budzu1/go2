@@ -1,5 +1,10 @@
 package com.TP;
 
+/*
+ * Przykład użycia:
+ * Chcesz gdzies mieć rozmiar planszy:
+ * int sizeOfBoard = GameSession.getInstance().getSize();
+ */
 public final class GameSession {
     private static GameSession instance;
     private Long gameId;
