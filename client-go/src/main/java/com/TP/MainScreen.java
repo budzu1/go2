@@ -115,5 +115,7 @@ public class MainScreen extends Parent {
         private void rollDice() {
         // Implement logic to roll dice via server
     }
-
+    public Long getGameId(Long gameId){
+        return gameId;
+    }
 }
