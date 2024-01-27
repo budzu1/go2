@@ -32,5 +32,7 @@ public class Board {
     public void saveLastMove(ArrayList<ArrayList<Stone>> last) {
         this.last = last;
     }
-
+    public ArrayList<ArrayList<Stone>> getStones() {
+        return this.stones;
+    }
 }
