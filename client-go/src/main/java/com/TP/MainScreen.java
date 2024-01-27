@@ -7,10 +7,16 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.geometry.Insets;
+
 
 
 public class MainScreen extends Parent {
     private static final int BUTTON_SIZE = 50;
+    private Long gameId;
+
     public MainScreen(final Stage primaryStage) {
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
@@ -29,7 +35,7 @@ public class MainScreen extends Parent {
         joinGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                joinGame();
+                joinGame(new Stage());
             }
         });
 
@@ -70,10 +76,6 @@ public class MainScreen extends Parent {
             }
             Goban goban = new Goban(boardSize, cellSize);
             goban.createGame(goban);
-            //zamina wartosci tabeli zeby sprawdzic czy wczytuje odpowiednio kamienie na plansze
-            //goban.getBoard().get(0).set(0, 1);
-            //goban.getBoard().get(boardSize-1).set(boardSize-1 , 2);
-            //goban.updateGoban();
         });
 
     }
@@ -81,11 +83,36 @@ public class MainScreen extends Parent {
 
 
 
-    private void joinGame() {
-        // Implement logic to join a game via server
+    private void joinGame(Stage primaryStage) {
+        primaryStage.setTitle("Twoja Klasa");
+
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10));
+
+        Label label = new Label("Podaj ID gry:");
+
+        TextField textField = new TextField();
+
+        javafx.scene.control.Button confirmButton = new javafx.scene.control.Button("Potwierdź");
+        confirmButton.setOnAction(e -> {
+            try {
+                gameId = Long.parseLong(textField.getText());
+                primaryStage.close();
+            } catch (NumberFormatException ex) {
+            }
+        });
+
+        layout.getChildren().addAll(label, textField, confirmButton);
+
+        Scene scene = new Scene(layout, 250, 150);
+        primaryStage.setScene(scene);
+
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+
+        primaryStage.showAndWait();
     }
 
-    private void rollDice() {
+        private void rollDice() {
         // Implement logic to roll dice via server
     }
 
