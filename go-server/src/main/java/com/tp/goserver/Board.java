@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 public class Board {
 
+    private int n;
+
     private ArrayList<ArrayList<Stone>> stones = new ArrayList<>();
+
+    private ArrayList<ArrayList<Stone>> last = new ArrayList<>();
 
     public Board(int n) {
         addStones(n);
@@ -18,10 +22,15 @@ public class Board {
 
             for (int j = 0; j < n; j++) {
 
-                tempArray.add(new Stone());
+                tempArray.add(Stone.EMPTY);
             }
 
             stones.add(tempArray);
         }
     }
+
+    public void saveLastMove(ArrayList<ArrayList<Stone>> last) {
+        this.last = last;
+    }
+
 }

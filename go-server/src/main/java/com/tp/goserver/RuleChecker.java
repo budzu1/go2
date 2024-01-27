@@ -1,5 +1,15 @@
 package com.tp.goserver;
 
-public class RuleChecker {
+import java.util.ArrayList;
 
+public final class RuleChecker {
+
+    public boolean ifCanPlace() {
+
+        return true;
+    }
+
+    public Board placeStone() {
+        return new Board(0);
+    }
 }

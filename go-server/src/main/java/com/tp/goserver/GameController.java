@@ -19,10 +19,10 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Long> createGame(@RequestParam String creator) {
+    public ResponseEntity<Game> createGame(@RequestParam String creator) {
         Game newGame = gameService.createGame(creator);
         Long id = newGame.getId();
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return new ResponseEntity<>(newGame, HttpStatus.CREATED);
     }
 
     @PostMapping("/join")
@@ -33,12 +33,13 @@ public class GameController {
 
     @PostMapping("/addBot")
     public ResponseEntity<Game> addBotToGame(@RequestParam Long gameId) {
-        gameService.addBot(gameId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Game updatedGame = gameService.addBot(gameId);
+        return new ResponseEntity<>(updatedGame, HttpStatus.OK);
     }
 
     @PostMapping("/makeMove")
-    public ResponseEntity<Boolean> makeMove(@RequestParam int x, @RequestParam int y, @RequestParam String login) {
+    public ResponseEntity<Boolean> makeMove(@RequestParam int x, @RequestParam int y, @RequestParam String login,
+            @RequestParam String gameId) {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
