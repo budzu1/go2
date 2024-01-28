@@ -12,9 +12,6 @@ public class GameService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ActiveGamesService activeGames;
-
     public String loginUser(String username) {
         User user = userRepository.findById(username)
                 .orElse(new User(username, false));

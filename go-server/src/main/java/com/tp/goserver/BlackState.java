@@ -22,17 +22,23 @@ public class BlackState implements GoGameState {
         if (!login.equals(game.getBlack())) {
             return;
         }
-        if (!game.getRules().ifCanPlace(game.getBoard(), row, col, Stone.BLACK)) {
+        if (!game.getRules().ifCanPlace(game.getBoard(), col, row, Stone.BLACK)) {
             return;
         }
 
-        game.setBoard(game.getRules().placeStone(game.getBoard(), row, col, Stone.BLACK));
+        game.setBoard(game.getRules().placeStone(game.getBoard(), col, row, Stone.BLACK));
 
+        System.out.println("toWhite");
         game.setState(new WhiteState());
     }
 
     @Override
     public void end(GoGame game) {
         game.setState(new CountingState());
+    }
+
+    @Override
+    public boolean ifCanChange() {
+        return true;
     }
 }

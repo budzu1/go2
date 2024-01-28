@@ -21,4 +21,9 @@ public class CountingState implements GoGameState {
     public void end(GoGame game) {
         throw new IllegalStateException("No operations allowed in counting state");
     }
+
+    @Override
+    public boolean ifCanChange() {
+        return false;
+    }
 }

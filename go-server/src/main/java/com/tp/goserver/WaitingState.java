@@ -23,4 +23,8 @@ public class WaitingState implements GoGameState {
         throw new IllegalStateException("Cannot end game in waiting state");
     }
 
+    @Override
+    public boolean ifCanChange() {
+        return false;
+    }
 }

@@ -17,25 +17,29 @@ public class RuleChecker implements IRuleChecker {
 
     public RuleChecker(int size) {
         this.size = size;
-        liberties=new Liberties(size);
+        liberties = new Liberties(size);
     }
 
     public Board placeStone(Board board, int col, int row, Stone stone) {
+
+        Board toReturn = board;
         if (ifCanPlace(board, col, row, stone) == true) {
-            board.getStones().get(col).set(row, stone);
-            liberties.updateLiberties(board);
-            board=removeStones(board,liberties);
+            toReturn.getStones().get(col).set(row, stone);
+            // liberties.updateLiberties(board);
+            // board = removeStones(board, liberties);
 
         }
-        return board;
+        return toReturn;
     }
+
     public Board removeStones(Board board, Liberties liberties) {
         for (int col = 0; col < board.getStones().size(); col++) {
             for (int row = 0; row < board.getStones().size(); row++) {
                 Stone stone = board.getStones().get(col).get(row);
                 if (stone != Stone.EMPTY && liberties.getLiberties(col, row) == 0) {
                     // Sprawdzamy, czy grupa kamieni nie ma oddechów
-                    if (!hasLibertyInStoneGroup(board, col, row, stone, new boolean[board.getStones().size()][board.getStones().size()])) {
+                    if (!hasLibertyInStoneGroup(board, col, row, stone,
+                            new boolean[board.getStones().size()][board.getStones().size()])) {
                         // Jeśli grupa kamieni nie ma oddechów, to usuwamy kamienie
                         removeStoneGroup(board, col, row, stone);
                     }
@@ -60,7 +64,8 @@ public class RuleChecker implements IRuleChecker {
     }
 
     private void removeStoneGroup(Board board, int col, int row, Stone stone) {
-        removeStoneGroupRecursive(board, col, row, stone, new boolean[board.getStones().size()][board.getStones().size()]);
+        removeStoneGroupRecursive(board, col, row, stone,
+                new boolean[board.getStones().size()][board.getStones().size()]);
     }
 
     private void removeStoneGroupRecursive(Board board, int col, int row, Stone stone, boolean[][] visited) {

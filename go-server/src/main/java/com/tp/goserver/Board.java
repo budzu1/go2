@@ -12,6 +12,7 @@ public class Board {
 
     public Board(int n) {
         addStones(n);
+        this.n = n;
     }
 
     private void addStones(int n) {
@@ -32,11 +33,13 @@ public class Board {
     public void saveLastMove(ArrayList<ArrayList<Stone>> last) {
         this.last = last;
     }
+
     public ArrayList<ArrayList<Stone>> getStones() {
         return this.stones;
     }
 
     public ArrayList<ArrayList<Integer>> prepareToSend() {
+
         ArrayList<ArrayList<Integer>> toSend = new ArrayList<>();
         for (int i = 0; i < n; i++) {
 
@@ -44,23 +47,16 @@ public class Board {
 
             for (int j = 0; j < n; j++) {
 
+                Stone stn = stones.get(i).get(j);
                 int whatStone;
-                switch (stones.get(i).get(j)) {
-                    case EMPTY:
-                        whatStone = 0;
-                        break;
-
-                    case WHITE:
-                        whatStone = 1;
-                        break;
-
-                    case BLACK:
-                        whatStone = 2;
-                        break;
-
-                    default:
-                        whatStone = 0;
-                        break;
+                if (stn == Stone.EMPTY) {
+                    whatStone = 0;
+                } else if (stn == Stone.WHITE) {
+                    whatStone = 2;
+                } else if (stn == Stone.BLACK) {
+                    whatStone = 1;
+                } else {
+                    whatStone = 0;
                 }
 
                 tempArray.add(whatStone);

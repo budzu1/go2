@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @RestController
 @RequestMapping("/game")
 public class GameController {
@@ -36,7 +39,7 @@ public class GameController {
     public ResponseEntity<Integer> joinGame(@RequestParam Long gameId, @RequestParam String opponent) {
         System.out.println("join: " + opponent);
         Game updatedGame = gameService.joinGame(gameId, opponent);
-        activeGameService.startGame(gameId);
+        activeGameService.startGame(gameId, updatedGame);
         return new ResponseEntity<>(updatedGame.getSize(), HttpStatus.OK);
     }
 
@@ -50,20 +53,35 @@ public class GameController {
     public ResponseEntity<Boolean> makeMove(@RequestParam int row, @RequestParam int col, @RequestParam String login,
             @RequestParam Long gameId) {
 
-        activeGameService.makeMove(gameId, row, col, login);
-
         System.out.println(row);
         System.out.println(col);
 
-        activeGameService.makeMove(gameId, row, col, login);
+        activeGameService.makeMove(gameId, row - 1, col - 1, login);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<ArrayToSend> refresh(@RequestParam String login,
+    public ResponseEntity<String> refresh(@RequestParam String login,
             @RequestParam Long gameId) {
 
         ArrayToSend arrayToSend = new ArrayToSend(activeGameService.getArray(gameId, login));
-        return new ResponseEntity<>(arrayToSend, HttpStatus.OK);
+
+        System.out.println("array size: " + arrayToSend.getToSend().size());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        if (!activeGameService.ifCanChange(gameId)) {
+            new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            String jsonString = objectMapper.writeValueAsString(arrayToSend);
+            return new ResponseEntity<>(jsonString, HttpStatus.OK);
+            // jsonString now contains the JSON representation of arrayToSend
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>("error", HttpStatus.OK);
     }
 }

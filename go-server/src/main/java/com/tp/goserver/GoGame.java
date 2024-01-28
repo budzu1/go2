@@ -22,6 +22,7 @@ public class GoGame {
     public GoGame(Long id, Game game) {
         currentState = new WaitingState();
         sqlGame = game;
+        board = new Board(sqlGame.getSize());
     }
 
     public void setState(GoGameState state) {
@@ -45,14 +46,13 @@ public class GoGame {
         currentState.end(this);
     }
 
-    public void start() {
+    public void start(Game game) {
+        sqlGame = game;
         black = sqlGame.getCreator();
         white = sqlGame.getOpponent();
+        System.out.println(sqlGame.getSize());
         rules = new RuleChecker(sqlGame.getSize());
-        board = new Board(sqlGame.getSize());
         setState(new BlackState());
-
-        System.out.println(currentState);
     }
 
     public String getBlack() {
@@ -81,5 +81,9 @@ public class GoGame {
 
     public Long getId() {
         return sqlGame.getId();
+    }
+
+    public boolean ifCanChange() {
+        return currentState.ifCanChange();
     }
 }

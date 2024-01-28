@@ -139,10 +139,6 @@ public class MainScreen extends Parent {
         }
     }
 
-    private void rollDice() {
-        // Implement logic to roll dice via server
-    }
-
     private void sendCreateGame(String creator, int size) {
         CompletableFuture<String> responseFuture = NetworkUtil.sendDoublePostRequest("/game/create", "creator", creator,
                 "size", Integer.toString(size));

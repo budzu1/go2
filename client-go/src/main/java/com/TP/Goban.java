@@ -1,5 +1,6 @@
 package com.TP;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -20,9 +21,9 @@ public class Goban extends Pane {
     public ArrayList<ArrayList<Integer>> board;
     Thread refresh = new Thread(() -> {
         while (true) {
-            sendRequest();
             try {
                 Thread.sleep(100);
+                sendRequest();
             } catch (Exception e) {
 
             }
@@ -187,7 +188,9 @@ public class Goban extends Pane {
                 try {
                     ArrayToSend temp = om.readValue(response, ArrayToSend.class);
                     board = temp.getToSend();
-                    updateGoban();
+                    Platform.runLater(() -> {
+                        updateGoban();
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

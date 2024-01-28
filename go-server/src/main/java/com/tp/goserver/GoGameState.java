@@ -9,4 +9,6 @@ public interface GoGameState {
     void addMove(GoGame game, int row, int col, String login);
 
     void end(GoGame game);
+
+    public boolean ifCanChange();
 }
