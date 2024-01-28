@@ -59,4 +59,30 @@ public class GameService {
         game.setStatus("in progress");
         return gameRepository.save(game);
     }
+
+    public Game changeStatusFinish(Long gameId) {
+        Optional<Game> optionalGame = gameRepository.findById(gameId);
+        if (!optionalGame.isPresent()) {
+            throw new RuntimeException("Game not found");
+        }
+
+        Game game = optionalGame.get();
+        game.setStatus("finished");
+        return gameRepository.save(game);
+    }
+
+    public Game addMove(Long gameId, Move move) {
+        Optional<Game> gameOptional = gameRepository.findById(gameId);
+        if (!gameOptional.isPresent()) {
+            throw new RuntimeException("Game not found");
+        }
+
+        Game game = gameOptional.get();
+        game.loadMovesFromJson();
+        game.addMove(move);
+        gameRepository.save(game);
+
+        return game;
+    }
+
 }

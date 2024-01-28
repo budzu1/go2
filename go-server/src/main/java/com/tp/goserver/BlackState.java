@@ -7,6 +7,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 public class BlackState implements GoGameState {
 
+    @Autowired
+    GameService gameService;
+
     @Override
     public void addOpponent(GoGame game, String opponent) {
         throw new IllegalStateException("Opponent already added");
@@ -27,6 +30,8 @@ public class BlackState implements GoGameState {
         }
 
         game.setBoard(game.getRules().placeStone(game.getBoard(), col, row, Stone.BLACK));
+
+        gameService.addMove(game.getId(), new Move(row, col));
 
         System.out.println("toWhite");
         game.setState(new WhiteState());
