@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +21,7 @@ public class Goban extends Pane {
     private final double cellSize;
     private final int color;
     public ArrayList<ArrayList<Integer>> board;
+    private List<Stone> stones = new ArrayList<>();
     Thread refresh = new Thread(() -> {
         while (true) {
             try {
@@ -89,9 +92,13 @@ public class Goban extends Pane {
                 } else if (board.get(i).get(j) == 2) {
                     addStone(j + 1, i + 1, Color.WHITE);
                 }
+                else {
+                    removeStone(j+1,i+1);
+                }
+                }
             }
         }
-    }
+
 
     /*
      * w sumie to nie wiem czy bedzie potrzebne bo mamy updateGoban()
@@ -141,7 +148,7 @@ public class Goban extends Pane {
 
     // dodawanie kamieni w updateGoban
     private void addStone(int row, int col, Color color) {
-        Stone stone = new Stone(cellSize);
+        Stone stone = new Stone(cellSize,row,col);
         stone.setRadius(cellSize / 4);
         stone.setFill(color);
 
@@ -155,6 +162,7 @@ public class Goban extends Pane {
             stone.setCenterX(cellX);
             stone.setCenterY(cellY);
             getChildren().add(stone);
+            stones.add(stone);
         }
     }
 
@@ -176,6 +184,17 @@ public class Goban extends Pane {
             System.err.println("An error occurred: " + ex.getMessage());
             return null;
         });
+    }
+    private void removeStone(int row, int col) {
+        // Utwórz iterator do bezpiecznego usuwania elementów podczas iteracji
+        Iterator<Stone> iterator = stones.iterator();
+        while (iterator.hasNext()) {
+            Stone stone = iterator.next();
+            if (stone.getRow() == row && stone.getCol() == col) {
+                getChildren().remove(stone);
+                iterator.remove(); // Użyj iteratora do bezpiecznego usunięcia elementu
+            }
+        }
     }
 
     private void sendRequest() {
@@ -204,7 +223,14 @@ public class Goban extends Pane {
         });
     }
 
+
     public void setBoard(ArrayList<ArrayList<Integer>> board) {
         this.board = board;
+    }
+    private ArrayList<Integer> getCol(int col) {
+        return board.get(col - 1);
+    }
+    private ArrayList<Integer> getRow(int row) {
+        return board.get(row - 1);
     }
 }
