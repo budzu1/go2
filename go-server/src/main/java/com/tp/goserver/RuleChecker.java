@@ -22,7 +22,9 @@ public final class RuleChecker implements IRuleChecker {
     }
 
     public Board placeStone(Board board,int col,int row, Stone stone) {
+        if(ifCanPlace(board,col,row)==true){
         board.getStones().get(col).set(row, stone);
+        }
         return board;
     }
 }
