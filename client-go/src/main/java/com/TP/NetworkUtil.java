@@ -43,4 +43,22 @@ public class NetworkUtil {
                     }
                 });
     }
+
+    public static CompletableFuture<String> sendQuadraPostRequest(String endpoint, String param, String value,
+            String param2, String value2, String param3, String value3, String param4, String value4) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(SERVER_URL + endpoint))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(HttpRequest.BodyPublishers.ofString(param + "=" + value + "&" + param2 + "=" + value2 + "&"
+                        + param3 + "=" + value3 + "&" + param4 + "=" + value4))
+                .build();
+
+        return httpClient.sendAsync(request, BodyHandlers.ofString())
+                .thenApply(new Function<HttpResponse<String>, String>() {
+                    @Override
+                    public String apply(HttpResponse<String> response) {
+                        return response.body();
+                    }
+                });
+    }
 }

@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 public class Goban extends Pane {
     private final int size;
@@ -16,11 +17,11 @@ public class Goban extends Pane {
     private final int color;
     public ArrayList<ArrayList<Integer>> board;
 
-    public Goban(int size, double cellSize,int color) {
+    public Goban(int size, double cellSize, int color) {
         this.size = size;
         this.cellSize = cellSize;
         this.board = new ArrayList<>();
-        this.color=color;
+        this.color = color;
 
         for (int i = 0; i < size; i++) {
             ArrayList<Integer> row = new ArrayList<>();
@@ -31,21 +32,28 @@ public class Goban extends Pane {
         }
         // to trzeba gdzies przeniesc
         initBoard();
-        //i to tez
+        // i to tez
         setOnMouseClicked((MouseEvent e) -> {
             int row = (int) Math.floor(e.getX() / cellSize) + 1;
             int col = (int) Math.floor(e.getY() / cellSize) + 1;
-            if(board.get(col-1).get(row-1)==0){
-                board.get(col-1).set(row-1, color);
-                updateGoban();
-                getStoneX(row);
-                getStoneY(col);
-            }
+            System.out.println(row);
+            System.out.println(col);
+            /*
+             * if (board.get(col - 1).get(row - 1) == 0) {
+             * board.get(col - 1).set(row - 1, color);
+             * updateGoban();
+             * getStoneX(row);
+             * getStoneY(col);
+             * }
+             */
+
+            // wysyłanie requesta na serwer
+            sendMakeMove(row, col, GameSession.getInstance().getUserId(), GameSession.getInstance().getGameId());
         });
     }
 
     // sluzy do wyswietlania stworzonej planszy
-    public void createGame(Goban goban){
+    public void createGame(Goban goban) {
         Stage primaryStage = new Stage();
         StackPane root = new StackPane();
         root.getChildren().add(goban);
@@ -58,32 +66,35 @@ public class Goban extends Pane {
 
     }
 
-    //update planszy i kamieni za pomoca tablicy
+    // update planszy i kamieni za pomoca tablicy
     public void updateGoban() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (board.get(i).get(j) == 1) {
-                    addStone(j+1, i+1, Color.BLACK);
+                    addStone(j + 1, i + 1, Color.BLACK);
                 } else if (board.get(i).get(j) == 2) {
-                    addStone(j+1, i+1, Color.WHITE);
+                    addStone(j + 1, i + 1, Color.WHITE);
                 }
             }
         }
     }
 
-    /*w sumie to nie wiem czy bedzie potrzebne bo mamy updateGoban()
+    /*
+     * w sumie to nie wiem czy bedzie potrzebne bo mamy updateGoban()
      */
-    public double getStoneX(int row){
+    public double getStoneX(int row) {
 
         return (row - 1) * cellSize + cellSize / 2;
     }
 
-    public double getStoneY(int col){
-        return  (col - 1) * cellSize + cellSize / 2;
+    public double getStoneY(int col) {
+        return (col - 1) * cellSize + cellSize / 2;
     }
+
     public ArrayList<ArrayList<Integer>> getBoard() {
         return board;
     }
+
     private void initBoard() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -92,26 +103,29 @@ public class Goban extends Pane {
 
                 getChildren().add(cell);
 
-                    double graySquareSize = 13;
-                    Rectangle graySquare1 = new Rectangle(i * cellSize, j * cellSize, graySquareSize, graySquareSize);
-                    Rectangle graySquare2 = new Rectangle((i + 1) * cellSize - graySquareSize, j * cellSize, graySquareSize, graySquareSize);
-                    Rectangle graySquare3 = new Rectangle(i * cellSize, (j + 1) * cellSize - graySquareSize, graySquareSize, graySquareSize);
-                    Rectangle graySquare4 = new Rectangle((i + 1) * cellSize - graySquareSize, (j + 1) * cellSize - graySquareSize, graySquareSize, graySquareSize);
-                    graySquare1.setFill(Color.GRAY);
-                    graySquare1.setStroke(Color.GRAY);
-                    graySquare2.setFill(Color.GRAY);
-                    graySquare2.setStroke(Color.GRAY);
-                    graySquare3.setFill(Color.GRAY);
-                    graySquare3.setStroke(Color.GRAY);
-                    graySquare4.setFill(Color.GRAY);
-                    graySquare4.setStroke(Color.GRAY);
-                    getChildren().addAll(graySquare1, graySquare2, graySquare3, graySquare4);
+                double graySquareSize = 13;
+                Rectangle graySquare1 = new Rectangle(i * cellSize, j * cellSize, graySquareSize, graySquareSize);
+                Rectangle graySquare2 = new Rectangle((i + 1) * cellSize - graySquareSize, j * cellSize, graySquareSize,
+                        graySquareSize);
+                Rectangle graySquare3 = new Rectangle(i * cellSize, (j + 1) * cellSize - graySquareSize, graySquareSize,
+                        graySquareSize);
+                Rectangle graySquare4 = new Rectangle((i + 1) * cellSize - graySquareSize,
+                        (j + 1) * cellSize - graySquareSize, graySquareSize, graySquareSize);
+                graySquare1.setFill(Color.GRAY);
+                graySquare1.setStroke(Color.GRAY);
+                graySquare2.setFill(Color.GRAY);
+                graySquare2.setStroke(Color.GRAY);
+                graySquare3.setFill(Color.GRAY);
+                graySquare3.setStroke(Color.GRAY);
+                graySquare4.setFill(Color.GRAY);
+                graySquare4.setStroke(Color.GRAY);
+                getChildren().addAll(graySquare1, graySquare2, graySquare3, graySquare4);
 
             }
         }
     }
 
-    //dodawanie kamieni w updateGoban
+    // dodawanie kamieni w updateGoban
     private void addStone(int row, int col, Color color) {
         Stone stone = new Stone(cellSize);
         stone.setRadius(cellSize / 4);
@@ -128,5 +142,25 @@ public class Goban extends Pane {
             stone.setCenterY(cellY);
             getChildren().add(stone);
         }
+    }
+
+    private void sendMakeMove(int row, int col, String login,
+            Long gameId) {
+        CompletableFuture<String> responseFuture = NetworkUtil.sendQuadraPostRequest("/game/makeMove", "row",
+                Integer.toString(row), "col", Integer.toString(col), "login", login,
+                "gameId", Long.toString(gameId));
+
+        responseFuture.thenAccept(response -> {
+            try {
+                int size = Integer.parseInt(response);
+                System.out.println("Size: " + size);
+                GameSession.getInstance().setSize(size);
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing game ID: " + response);
+            }
+        }).exceptionally(ex -> {
+            System.err.println("An error occurred: " + ex.getMessage());
+            return null;
+        });
     }
 }
