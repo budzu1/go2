@@ -1,5 +1,6 @@
 package com.tp.goserver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
@@ -17,10 +18,14 @@ public class ActiveGamesService {
     }
 
     public synchronized void startGame(Long id) {
-        games.get(id).setState(new BlackState());
+        games.get(id).start();
     }
 
     public synchronized void makeMove(Long id, int row, int col, String login) {
         games.get(id).addMove(row, col, login);
+    }
+
+    public synchronized ArrayList<ArrayList<Integer>> getArray(Long id, String login) {
+        return games.get(id).getBoard().prepareToSend();
     }
 }

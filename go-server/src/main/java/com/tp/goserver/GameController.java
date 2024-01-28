@@ -1,5 +1,7 @@
 package com.tp.goserver;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,7 @@ public class GameController {
 
     @PostMapping("/join")
     public ResponseEntity<Integer> joinGame(@RequestParam Long gameId, @RequestParam String opponent) {
+        System.out.println("join: " + opponent);
         Game updatedGame = gameService.joinGame(gameId, opponent);
         activeGameService.startGame(gameId);
         return new ResponseEntity<>(updatedGame.getSize(), HttpStatus.OK);
@@ -51,7 +54,16 @@ public class GameController {
 
         System.out.println(row);
         System.out.println(col);
+
+        activeGameService.makeMove(gameId, row, col, login);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<ArrayToSend> refresh(@RequestParam String login,
+            @RequestParam Long gameId) {
+
+        ArrayToSend arrayToSend = new ArrayToSend(activeGameService.getArray(gameId, login));
+        return new ResponseEntity<>(arrayToSend, HttpStatus.OK);
+    }
 }

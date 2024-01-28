@@ -51,6 +51,8 @@ public class GoGame {
         rules = new RuleChecker(sqlGame.getSize());
         board = new Board(sqlGame.getSize());
         setState(new BlackState());
+
+        System.out.println(currentState);
     }
 
     public String getBlack() {

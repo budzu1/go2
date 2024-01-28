@@ -1,6 +1,9 @@
 package com.TP;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +19,8 @@ import javafx.geometry.Insets;
 public class MainScreen extends Parent {
     private static final int BUTTON_SIZE = 50;
     private Long gameId;
+
+    private CountDownLatch joinGameLatch = new CountDownLatch(1);
 
     public MainScreen(final Stage primaryStage) {
         VBox layout = new VBox(10);
@@ -81,7 +86,13 @@ public class MainScreen extends Parent {
             sendCreateGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getSize());
 
             Goban goban = new Goban(boardSize, cellSize, 1);
-            goban.createGame(goban);
+            try {
+                URI uri = new URI("ws://localhost:8080/client");
+                SimpleWebSocketClient swc = new SimpleWebSocketClient(uri, goban);
+                goban.createGame(goban);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         });
 
     }
@@ -115,8 +126,17 @@ public class MainScreen extends Parent {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
 
         primaryStage.showAndWait();
-        Goban goban = new Goban(GameSession.getInstance().getSize(), 30, 2);
-        goban.createGame(goban);
+
+        try {
+            // Wait for sendJoinGame to complete
+            joinGameLatch.await();
+
+            // Now, you can create the Goban instance
+            Goban goban = new Goban(GameSession.getInstance().getSize(), 30, 2);
+            goban.createGame(goban);
+        } catch (InterruptedException e) {
+            // Handle interruption if necessary
+        }
     }
 
     private void rollDice() {
@@ -155,6 +175,7 @@ public class MainScreen extends Parent {
                 System.out.println("Size: " + size);
                 GameSession.getInstance().setSize(size);
                 System.out.println("Size: " + GameSession.getInstance().getSize());
+                joinGameLatch.countDown();
             } catch (NumberFormatException e) {
                 System.err.println("Error parsing game ID: " + response);
             }

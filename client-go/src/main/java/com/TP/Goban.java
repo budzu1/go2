@@ -11,11 +11,23 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class Goban extends Pane {
     private final int size;
     private final double cellSize;
     private final int color;
     public ArrayList<ArrayList<Integer>> board;
+    Thread refresh = new Thread(() -> {
+        while (true) {
+            sendRequest();
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+
+            }
+        }
+    });
 
     public Goban(int size, double cellSize, int color) {
         this.size = size;
@@ -64,6 +76,7 @@ public class Goban extends Pane {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        refresh.start();
     }
 
     // update planszy i kamieni za pomoca tablicy
@@ -162,5 +175,33 @@ public class Goban extends Pane {
             System.err.println("An error occurred: " + ex.getMessage());
             return null;
         });
+    }
+
+    private void sendRequest() {
+        CompletableFuture<String> responseFuture = NetworkUtil.sendDoublePostRequest("/game/refresh", "gameId",
+                Long.toString(GameSession.getInstance().getGameId()), "login", GameSession.getInstance().getUserId());
+
+        responseFuture.thenAccept(response -> {
+            try {
+                ObjectMapper om = new ObjectMapper();
+                try {
+                    ArrayToSend temp = om.readValue(response, ArrayToSend.class);
+                    board = temp.getToSend();
+                    updateGoban();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (NumberFormatException e) {
+                System.err.println("Error");
+            }
+        }).exceptionally(ex -> {
+            System.err.println("An error occurred: " + ex.getMessage());
+            return null;
+        });
+    }
+
+    public void setBoard(ArrayList<ArrayList<Integer>> board) {
+        this.board = board;
     }
 }
