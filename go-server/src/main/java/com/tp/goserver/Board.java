@@ -14,6 +14,18 @@ public class Board {
         addStones(n);
         this.n = n;
     }
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (ArrayList<Stone> row : stones) {
+            for (Stone stone : row) {
+                result.append(stone).append(" ");
+            }
+            result.append("\n");
+        }
+        return result.toString();
+    }
+
 
     private void addStones(int n) {
 

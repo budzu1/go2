@@ -12,6 +12,7 @@ public class RuleChecker implements IRuleChecker {
             return false;
         }
 
+
         return true;
     }
 
@@ -22,13 +23,15 @@ public class RuleChecker implements IRuleChecker {
 
     public Board placeStone(Board board, int col, int row, Stone stone) {
 
-        Board toReturn = board;
-        if (ifCanPlace(board, col, row, stone) == true) {
-            toReturn.getStones().get(col).set(row, stone);
-            // liberties.updateLiberties(board);
-            // board = removeStones(board, liberties);
 
-        }
+
+        liberties.updateLiberties(board);
+        System.out.println("Before stone removal:\n" + board);
+        board = removeStones(board, liberties);
+        System.out.println("After stone removal:\n" + board);
+        Board toReturn = new Board(board.getStones().size());
+        toReturn = board;
+        toReturn.getStones().get(col).set(row, stone);
         return toReturn;
     }
 
