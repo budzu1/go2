@@ -18,25 +18,25 @@ public class RuleCheckerTest {
     }
 
     @Test
-    public void testIfCanPlace_WhenEmptyCell() {
+    public void testIfCanPlaceWhenEmptyCell() {
         int col = 1;
         int row = 1;
-        assertTrue(ruleChecker.ifCanPlace(board, col, row));
+        assertTrue(ruleChecker.ifCanPlace(board, col, row, Stone.BLACK));
     }
 
     @Test
-    public void testIfCanPlace_WhenNotEmptyCell() {
+    public void testIfCanPlaceWhenNotEmptyCell() {
         int col = 2;
         int row = 2;
 
         Stone stone = Stone.BLACK;
         board = ruleChecker.placeStone(board, col, row, stone);
 
-        assertFalse(ruleChecker.ifCanPlace(board, col, row));
+        assertFalse(ruleChecker.ifCanPlace(board, col, row, Stone.BLACK));
     }
 
     @Test
-    public void testPlaceStone_WhenValidMove() {
+    public void testPlaceStoneWhenValidMove() {
         int col = 3;
         int row = 3;
         Stone stone = Stone.BLACK;
@@ -48,12 +48,12 @@ public class RuleCheckerTest {
     }
 
     @Test
-    public void testPlaceStone_WhenInvalidMove() {
+    public void testPlaceStoneWhenInvalidMove() {
         int col = 4;
         int row = 4;
 
         // Umieść kamień na planszy
-        Stone existingStone =Stone.BLACK;
+        Stone existingStone = Stone.BLACK;
         board = ruleChecker.placeStone(board, col, row, existingStone);
 
         // Spróbuj umieścić kamień na tym samym miejscu

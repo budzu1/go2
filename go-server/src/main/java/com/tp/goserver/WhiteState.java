@@ -13,7 +13,7 @@ public class WhiteState implements GoGameState {
     }
 
     @Override
-    public void addMove(GoGame game, String move) {
+    public void addMove(GoGame game, int row, int col, String login) {
         // Add logic to add move
         // If move is okay, change state
         game.setState(new BlackState());

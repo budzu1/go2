@@ -26,12 +26,14 @@ public class GameController {
         Game newGame = gameService.createGame(creator, size);
         Long id = newGame.getId();
         System.out.println(id);
+        activeGameService.createGame(id, newGame);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @PostMapping("/join")
     public ResponseEntity<Integer> joinGame(@RequestParam Long gameId, @RequestParam String opponent) {
         Game updatedGame = gameService.joinGame(gameId, opponent);
+        activeGameService.startGame(gameId);
         return new ResponseEntity<>(updatedGame.getSize(), HttpStatus.OK);
     }
 
@@ -44,6 +46,8 @@ public class GameController {
     @PostMapping("/makeMove")
     public ResponseEntity<Boolean> makeMove(@RequestParam int row, @RequestParam int col, @RequestParam String login,
             @RequestParam Long gameId) {
+
+        activeGameService.makeMove(gameId, row, col, login);
 
         System.out.println(row);
         System.out.println(col);

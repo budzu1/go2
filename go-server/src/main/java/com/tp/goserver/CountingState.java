@@ -13,7 +13,7 @@ public class CountingState implements GoGameState {
     }
 
     @Override
-    public void addMove(GoGame game, String move) {
+    public void addMove(GoGame game, int row, int col, String login) {
         throw new IllegalStateException("No operations allowed in counting state");
     }
 

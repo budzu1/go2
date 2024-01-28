@@ -6,7 +6,7 @@ public interface GoGameState {
 
     void addBot(GoGame game);
 
-    void addMove(GoGame game, String move);
+    void addMove(GoGame game, int row, int col, String login);
 
     void end(GoGame game);
 }

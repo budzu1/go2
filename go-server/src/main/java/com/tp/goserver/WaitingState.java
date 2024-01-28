@@ -14,7 +14,7 @@ public class WaitingState implements GoGameState {
     }
 
     @Override
-    public void addMove(GoGame game, String move) {
+    public void addMove(GoGame game, int row, int col, String login) {
         throw new IllegalStateException("Cannot add move in waiting state");
     }
 
@@ -22,4 +22,5 @@ public class WaitingState implements GoGameState {
     public void end(GoGame game) {
         throw new IllegalStateException("Cannot end game in waiting state");
     }
+
 }

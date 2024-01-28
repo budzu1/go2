@@ -1,6 +1,15 @@
 package com.tp.goserver;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 public class BlackState implements GoGameState {
+
+    @Autowired
+    private SimpMessagingTemplate template;
+
     @Override
     public void addOpponent(GoGame game, String opponent) {
         throw new IllegalStateException("Opponent already added");
@@ -12,9 +21,18 @@ public class BlackState implements GoGameState {
     }
 
     @Override
-    public void addMove(GoGame game, String move) {
-        // Add logic to add move
-        // If move is okay, change state
+    public void addMove(GoGame game, int row, int col, String login) {
+        if (!login.equals(game.getBlack())) {
+            return;
+        }
+        if (!game.getRules().ifCanPlace(game.getBoard(), row, col, Stone.BLACK)) {
+            return;
+        }
+
+        game.setBoard(game.getRules().placeStone(game.getBoard(), row, col, Stone.BLACK));
+
+        template.convertAndSend("/topic/" + game.getId(), game.getBoard().prepareToSend());
+
         game.setState(new WhiteState());
     }
 

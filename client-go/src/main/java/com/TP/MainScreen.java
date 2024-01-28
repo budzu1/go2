@@ -80,7 +80,7 @@ public class MainScreen extends Parent {
             // sygnał do serwera
             sendCreateGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getSize());
 
-            Goban goban = new Goban(boardSize, cellSize,1);
+            Goban goban = new Goban(boardSize, cellSize, 1);
             goban.createGame(goban);
         });
 
@@ -107,8 +107,6 @@ public class MainScreen extends Parent {
             } catch (NumberFormatException ex) {
             }
         });
-        int boardSize = GameSession.getInstance().getSize();
-
         layout.getChildren().addAll(label, textField, confirmButton);
 
         Scene scene = new Scene(layout, 250, 150);
@@ -117,7 +115,7 @@ public class MainScreen extends Parent {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
 
         primaryStage.showAndWait();
-        Goban goban = new Goban(boardSize, 30,2);
+        Goban goban = new Goban(GameSession.getInstance().getSize(), 30, 2);
         goban.createGame(goban);
     }
 
@@ -156,6 +154,7 @@ public class MainScreen extends Parent {
                 int size = Integer.parseInt(response);
                 System.out.println("Size: " + size);
                 GameSession.getInstance().setSize(size);
+                System.out.println("Size: " + GameSession.getInstance().getSize());
             } catch (NumberFormatException e) {
                 System.err.println("Error parsing game ID: " + response);
             }
