@@ -55,11 +55,12 @@ public class RuleCheckerTest {
         // Umieść kamień na planszy
         Stone existingStone = Stone.BLACK;
         board = ruleChecker.placeStone(board, col, row, existingStone);
-
+        Board newBoard=board;
         // Spróbuj umieścić kamień na tym samym miejscu
         Stone newStone = Stone.WHITE;
-        Board newBoard = ruleChecker.placeStone(board, col, row, newStone);
-
+        if(ruleChecker.ifCanPlace(board, col,row,newStone)) {
+            newBoard = ruleChecker.placeStone(board, col, row, newStone);
+        }
         // Sprawdź, czy kamień nie został zmieniony
         assertEquals(existingStone, newBoard.getStones().get(col).get(row));
     }

@@ -23,8 +23,6 @@ public class RuleChecker implements IRuleChecker {
 
     public Board placeStone(Board board, int col, int row, Stone stone) {
 
-
-
         liberties.updateLiberties(board);
         System.out.println("Before stone removal:\n" + board);
         board = removeStones(board, liberties);
