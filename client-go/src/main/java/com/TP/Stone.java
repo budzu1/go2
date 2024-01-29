@@ -20,7 +20,6 @@ public class Stone extends Circle {
         return col;
     }
 
-
     public void relocate(double x, double y) {
         super.relocate(snapToCell(x), snapToCell(y));
     }

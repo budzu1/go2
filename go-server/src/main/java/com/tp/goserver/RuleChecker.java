@@ -1,16 +1,16 @@
 package com.tp.goserver;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class RuleChecker implements IRuleChecker {
-    private int size;
+    private final int size;
     private int blackpoints=0;
     private int whitepoints=6;
     private Liberties liberties;
 
     public boolean ifCanPlace(Board board, int col, int row, Stone stone) {
-        Board tempBoard = board;
+        Board tempBoard = new Board(size);
+        tempBoard=board;
         if (board.getStones().get(col).get(row) != Stone.EMPTY) {
             return false;
         }
@@ -40,9 +40,7 @@ public class RuleChecker implements IRuleChecker {
     public Board placeStone(Board board, int col, int row, Stone stone) {
 
         liberties.updateLiberties(board);
-        System.out.println("Before stone removal:\n" + board);
         board = removeStones(board, liberties);
-        System.out.println("After stone removal:\n" + board);
         Board toReturn = new Board(board.getStones().size());
         toReturn = board;
         toReturn.getStones().get(col).set(row, stone);

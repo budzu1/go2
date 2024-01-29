@@ -95,11 +95,6 @@ public class Liberties {
         return liberties;
     }
 
-    public ArrayList<ArrayList<Integer>> getLiberties() {
-        return liberties;
-
-    }
-
     public int getLiberties(int col, int row) {
         return liberties.get(col).get(row);
     }

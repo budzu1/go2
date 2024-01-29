@@ -17,7 +17,6 @@ import javafx.stage.Modality;
 import javafx.geometry.Insets;
 
 public class MainScreen extends Parent {
-    private static final int BUTTON_SIZE = 50;
     private Long gameId;
 
     private CountDownLatch joinGameLatch = new CountDownLatch(1);
@@ -28,7 +27,6 @@ public class MainScreen extends Parent {
 
         Button createGameButton = new Button("Create Game");
         Button joinGameButton = new Button("Join Game");
-        Button rollDiceButton = new Button("Roll Dice");
 
         createGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -44,14 +42,7 @@ public class MainScreen extends Parent {
             }
         });
 
-        rollDiceButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-            }
-        });
-
-        layout.getChildren().addAll(createGameButton, joinGameButton, rollDiceButton);
+        layout.getChildren().addAll(createGameButton, joinGameButton);
 
         getChildren().add(layout);
     }
@@ -80,19 +71,39 @@ public class MainScreen extends Parent {
                     break;
             }
 
-            GameSession.getInstance().setSize(boardSize);
+            Alert modeAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            modeAlert.setTitle("Choose Game Mode");
+            modeAlert.setHeaderText("Select the game mode:");
+            ButtonType playerModeButton = new ButtonType("Player vs Player");
+            ButtonType botModeButton = new ButtonType("Player vs Bot");
+            modeAlert.getButtonTypes().setAll(playerModeButton, botModeButton);
 
-            // sygnał do serwera
-            sendCreateGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getSize());
-
-            Goban goban = new Goban(boardSize, cellSize, 1);
-            try {
-                URI uri = new URI("ws://localhost:8080/client");
-                SimpleWebSocketClient swc = new SimpleWebSocketClient(uri, goban);
-                goban.createGame(goban);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+            modeAlert.showAndWait().ifPresent(modeResult -> {
+                if (modeResult == playerModeButton) {
+                    // Tryb gry z graczem
+                    GameSession.getInstance().setSize(boardSize);
+                    sendCreateGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getSize());
+                    Goban goban = new Goban(boardSize, cellSize, 1);
+                    try {
+                        URI uri = new URI("ws://localhost:8080/client");
+                        SimpleWebSocketClient swc = new SimpleWebSocketClient(uri, goban);
+                        goban.createGame(goban);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                } else if (modeResult == botModeButton) {
+                    // Tryb gry z botem
+                    // Tutaj możesz dodać logikę tworzenia gry z botem, na przykład:
+                    Goban gobanWithBot = new Goban(boardSize, cellSize, 2); // Przyjmuję, że 2 to identyfikator bota
+                    try {
+                        URI uri = new URI("ws://localhost:8080/client");
+                        SimpleWebSocketClient swc = new SimpleWebSocketClient(uri, gobanWithBot);
+                        gobanWithBot.createGame(gobanWithBot);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         });
 
     }
@@ -155,10 +166,6 @@ public class MainScreen extends Parent {
             System.err.println("An error occurred: " + ex.getMessage());
             return null;
         });
-    }
-
-    public Long getGameId(Long gameId) {
-        return gameId;
     }
 
     private void sendJoinGame(String login, Long gameId) {

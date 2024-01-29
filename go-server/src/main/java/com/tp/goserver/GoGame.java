@@ -20,8 +20,6 @@ public class GoGame {
     private boolean ifPassed;
 
     private String winner;
-    private int whitePoints;
-    private int blackPoints;
 
     Game sqlGame;
 
@@ -46,7 +44,6 @@ public class GoGame {
 
     public void addMove(int row, int col, String login) {
         currentState.addMove(this, row, col, login);
-
     }
 
     public void end() {
@@ -121,6 +118,7 @@ public class GoGame {
     public void setWinner(String winner) {
         this.winner = winner;
     }
+
     public int getWhitePoints(){
         return rules.getWhitePoints();
     }
