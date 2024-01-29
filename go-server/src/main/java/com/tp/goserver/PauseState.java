@@ -22,14 +22,30 @@ public class PauseState implements GoGameState {
 
     @Override
     public void assume(GoGame game, String login) {
-        if (login == game.getBlack() && game.isWhiteAssume() || login == game.getWhite() && game.isBlackAssume()) {
-            // tutaj rozstrzygnbiecie a pózniej wpisz do winner login zwyciezcy
-                game.determineWinner();
-                game.setState(new EndState());
-        } else if (login == game.getBlack()) {
+        /*
+         * if (login == game.getBlack() && game.isWhiteAssume() || login ==
+         * game.getWhite() && game.isBlackAssume()) {
+         * // tutaj rozstrzygnbiecie a pózniej wpisz do winner login zwyciezcy
+         * game.determineWinner();
+         * game.setState(new EndState());
+         * } else if (login == game.getBlack()) {
+         * game.setBlackAssume(true);
+         * } else if (login == game.getWhite()) {
+         * game.setWhiteAssume(true);
+         * }
+         */
+
+        if (login.equals(game.getBlack())) {
             game.setBlackAssume(true);
-        } else if (login == game.getWhite()) {
+        }
+
+        if (login.equals(game.getWhite())) {
             game.setWhiteAssume(true);
+        }
+        System.out.println("b" + game.isBlackAssume() + "w" + game.isWhiteAssume());
+        if (game.isBlackAssume() && game.isWhiteAssume()) {
+            game.determineWinner();
+            game.setState(new EndState());
         }
 
     }

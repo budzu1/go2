@@ -146,18 +146,22 @@ public class GoGame {
     public int getBlackPoints() {
         return rules.getBlackPoints();
     }
+
     public void determineWinner() {
         int blackPoints = getBlackPoints();
         int whitePoints = getWhitePoints();
 
         if (blackPoints > whitePoints) {
-            setWinner(getBlack());
+            this.setWinner(getBlack());
         } else {
-            setWinner(getWhite());
+            this.setWinner(getWhite());
         }
+        System.out.println(getWinner());
     }
+
     public void assume(String login) {
         currentState.assume(this, login);
+        System.out.println(login);
 
     }
 }

@@ -240,7 +240,7 @@ public class Goban extends Pane {
         Button passButton = new Button("Pass");
         Button giveUpButton = new Button("Give Up");
         Button continueButton = new Button("Continue");
-        Button assumeButton = new Button("Continue");
+        Button assumeButton = new Button("Assume");
 
         // Set actions for buttons
         passButton.setOnAction(event -> {
