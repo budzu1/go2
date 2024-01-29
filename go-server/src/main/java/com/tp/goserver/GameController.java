@@ -82,4 +82,23 @@ public class GameController {
 
         return new ResponseEntity<>("error", HttpStatus.OK);
     }
+
+    @PostMapping("/pass")
+    public ResponseEntity<Boolean> pass(@RequestParam Long gameId, @RequestParam String login) {
+        boolean temp = activeGameService.pass(gameId, login);
+        return new ResponseEntity<>(temp, HttpStatus.OK);
+    }
+
+    @PostMapping("/giveUp")
+    public ResponseEntity<Boolean> giveUp(@RequestParam Long gameId, @RequestParam String login) {
+        boolean temp = activeGameService.giveUp(gameId, login);
+        return new ResponseEntity<>(temp, HttpStatus.OK);
+    }
+
+    @PostMapping("/pContinue")
+    public ResponseEntity<Boolean> pContinue(@RequestParam Long gameId, @RequestParam String login) {
+        boolean temp = activeGameService.pContinue(gameId, login);
+        return new ResponseEntity<>(temp, HttpStatus.OK);
+    }
+
 }

@@ -17,6 +17,10 @@ public class GoGame {
 
     private IRuleChecker rules;
 
+    private boolean ifPassed;
+
+    private String winner;
+
     Game sqlGame;
 
     public GoGame(Long id, Game game) {
@@ -83,7 +87,35 @@ public class GoGame {
         return sqlGame.getId();
     }
 
+    public boolean isIfPassed() {
+        return ifPassed;
+    }
+
+    public void setIfPassed(boolean ifPassed) {
+        this.ifPassed = ifPassed;
+    }
+
     public boolean ifCanChange() {
         return currentState.ifCanChange();
+    }
+
+    public void pass(String login) {
+        currentState.pass(this, login);
+    }
+
+    public void giveUp(String login) {
+        currentState.giveUp(this, login);
+    }
+
+    public void pContinue(String login) {
+        currentState.pContinue(this, login);
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 }

@@ -10,5 +10,11 @@ public interface GoGameState {
 
     void end(GoGame game);
 
+    void pass(GoGame game, String login);
+
+    void giveUp(GoGame game, String login);
+
+    void pContinue(GoGame game, String login);
+
     public boolean ifCanChange();
 }

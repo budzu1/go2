@@ -41,4 +41,40 @@ public class BlackState implements GoGameState {
     public boolean ifCanChange() {
         return true;
     }
+
+    @Override
+    public void pass(GoGame game, String login) {
+        if (!login.equals(game.getBlack())) {
+            return;
+        }
+
+        if (game.isIfPassed()) {
+            game.setState(new PauseState());
+            game.setIfPassed(false);
+            return;
+        }
+
+        game.setIfPassed(true);
+        System.out.println("toWhite");
+        game.setState(new WhiteState());
+    }
+
+    @Override
+    public void giveUp(GoGame game, String login) {
+        if (login.equals(game.getBlack())) {
+            game.setWinner(game.getWhite());
+        } else if (login.equals(game.getWhite())) {
+            game.setWinner(game.getBlack());
+        }
+
+        game.setState(new EndState());
+
+    }
+
+    @Override
+    public void pContinue(GoGame game, String login) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

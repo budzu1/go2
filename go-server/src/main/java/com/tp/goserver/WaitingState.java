@@ -27,4 +27,22 @@ public class WaitingState implements GoGameState {
     public boolean ifCanChange() {
         return false;
     }
+
+    @Override
+    public void pass(GoGame game, String login) {
+        throw new IllegalStateException("Cannot end game in waiting state");
+    }
+
+    @Override
+    public void giveUp(GoGame game, String login) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void pContinue(GoGame game, String login) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

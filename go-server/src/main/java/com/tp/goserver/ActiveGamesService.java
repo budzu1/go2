@@ -34,4 +34,19 @@ public class ActiveGamesService {
     public synchronized boolean ifCanChange(Long id) {
         return games.get(id).ifCanChange();
     }
+
+    public synchronized boolean pass(Long id, String login) {
+        games.get(id).pass(login);
+        return true;
+    }
+
+    public synchronized boolean giveUp(Long id, String login) {
+        games.get(id).giveUp(login);
+        return true;
+    }
+
+    public synchronized boolean pContinue(Long id, String login) {
+        games.get(id).pContinue(login);
+        return true;
+    }
 }
