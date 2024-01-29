@@ -55,8 +55,4 @@ public class EndState implements GoGameState {
         // TODO Auto-generated method stub
 
     }
-    public void Winner(GoGame game) {
-        game.determineWinner();
-        game.setState(new EndState());
-    }
 }
