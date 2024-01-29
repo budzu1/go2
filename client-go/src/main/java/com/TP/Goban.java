@@ -115,18 +115,6 @@ public class Goban extends Pane {
         }
     }
 
-    public double getStoneX(int row) {
-
-        return (row - 1) * cellSize + cellSize / 2;
-    }
-
-    public double getStoneY(int col) {
-        return (col - 1) * cellSize + cellSize / 2;
-    }
-
-    public ArrayList<ArrayList<Integer>> getBoard() {
-        return board;
-    }
 
     private void initBoard() {
         for (int i = 0; i < size; i++) {
