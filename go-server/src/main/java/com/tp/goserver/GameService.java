@@ -85,4 +85,16 @@ public class GameService {
         return game;
     }
 
+    public Game setWinner(Long gameId, String winner) {
+        Optional<Game> gameOptional = gameRepository.findById(gameId);
+        if (!gameOptional.isPresent()) {
+            throw new RuntimeException("Game not found");
+        }
+
+        Game game = gameOptional.get();
+        game.setWinner(winner);
+        gameRepository.save(game);
+        return game;
+    }
+
 }

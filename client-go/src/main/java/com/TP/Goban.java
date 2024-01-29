@@ -3,12 +3,15 @@ package com.TP;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -24,11 +27,24 @@ public class Goban extends Pane {
     private final int color;
     public ArrayList<ArrayList<Integer>> board;
     private List<Stone> stones = new ArrayList<>();
+    private int threadCheck = 0;
+
     Thread refresh = new Thread(() -> {
-        while (true) {
+        while (threadCheck == 0) {
             try {
                 Thread.sleep(100);
                 sendRequest();
+            } catch (Exception e) {
+
+            }
+        }
+    });
+
+    Thread winnerHunt = new Thread(() -> {
+        while (threadCheck == 0) {
+            try {
+                Thread.sleep(2000);
+                sendGetWinner();
             } catch (Exception e) {
 
             }
@@ -81,6 +97,7 @@ public class Goban extends Pane {
         primaryStage.show();
 
         refresh.start();
+        winnerHunt.start();
         createButtonWindow();
     }
 
@@ -312,5 +329,46 @@ public class Goban extends Pane {
             System.err.println("An error occurred: " + ex.getMessage());
             return null;
         });
+    }
+
+    private void sendGetWinner() {
+        CompletableFuture<String> responseFuture = NetworkUtil.sendPostRequest("/game/getWinner", "gameId",
+                Long.toString(GameSession.getInstance().getGameId()));
+
+        responseFuture.thenAccept(response -> {
+            try {
+                String winner = response;
+
+                if (!winner.equals("")) {
+                    threadCheck = 1;
+                    Platform.runLater(() -> {
+                        showMessageWindow("Winner is: " + winner);
+                    });
+                }
+
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing winner: " + response);
+            }
+        }).exceptionally(ex -> {
+            System.err.println("An error occurred: " + ex.getMessage());
+            return null;
+        });
+    }
+
+    public void showMessageWindow(String message) {
+        Stage messageStage = new Stage();
+
+        messageStage.initModality(Modality.APPLICATION_MODAL);
+
+        Label messageLabel = new Label(message);
+
+        VBox layout = new VBox(10);
+        layout.getChildren().add(messageLabel);
+
+        Scene scene = new Scene(layout, 300, 100);
+        messageStage.setScene(scene);
+
+        messageStage.setTitle("Message");
+        messageStage.showAndWait();
     }
 }

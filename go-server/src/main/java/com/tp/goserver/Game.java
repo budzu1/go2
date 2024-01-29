@@ -24,6 +24,7 @@ public class Game {
     private boolean bot; // True if the opponent is a bot
     private String status; // Status of the game (e.g., "waiting", "in progress", "finished")
     private int size;
+    private String winner;
 
     @Transient
     private ArrayList<Move> moves = new ArrayList<>();
@@ -119,5 +120,13 @@ public class Game {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 }

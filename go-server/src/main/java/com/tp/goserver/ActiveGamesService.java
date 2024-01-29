@@ -49,4 +49,8 @@ public class ActiveGamesService {
         games.get(id).pContinue(login);
         return true;
     }
+
+    public String getWinner(Long id) {
+        return games.get(id).getWinner();
+    }
 }

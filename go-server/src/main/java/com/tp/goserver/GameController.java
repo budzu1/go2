@@ -101,4 +101,17 @@ public class GameController {
         return new ResponseEntity<>(temp, HttpStatus.OK);
     }
 
+    @PostMapping("/getWinner")
+    public ResponseEntity<String> getWinner(@RequestParam Long gameId) {
+        String winner = activeGameService.getWinner(gameId);
+
+        if (winner == null) {
+            return new ResponseEntity<>("", HttpStatus.OK);
+        } else {
+            gameService.setWinner(gameId, winner);
+            gameService.changeStatusFinish(gameId);
+            return new ResponseEntity<>(winner, HttpStatus.OK);
+        }
+    }
+
 }

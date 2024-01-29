@@ -53,8 +53,10 @@ public class PauseState implements GoGameState {
     @Override
     public void pContinue(GoGame game, String login) {
         if (login.equals(game.getBlack())) {
+            game.setIfPassed(false);
             game.setState(new WhiteState());
         } else if (login.equals(game.getWhite())) {
+            game.setIfPassed(false);
             game.setState(new BlackState());
         }
     }

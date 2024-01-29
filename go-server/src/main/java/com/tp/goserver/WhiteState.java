@@ -24,6 +24,7 @@ public class WhiteState implements GoGameState {
         game.setBoard(game.getRules().placeStone(game.getBoard(), col, row, Stone.WHITE));
 
         System.out.println("toWhite");
+        game.setIfPassed(false);
         game.setState(new BlackState());
     }
 
@@ -44,8 +45,8 @@ public class WhiteState implements GoGameState {
         }
 
         if (game.isIfPassed()) {
-            game.setState(new PauseState());
             game.setIfPassed(false);
+            game.setState(new PauseState());
             return;
         }
 
