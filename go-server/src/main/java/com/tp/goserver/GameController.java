@@ -55,7 +55,7 @@ public class GameController {
 
         activeGameService.makeMove(gameId, row - 1, col - 1, login);
 
-        // gameService.addMove(gameId, new Move(row, col));
+        gameService.addMove(gameId, new Move(row - 1, col - 1));
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

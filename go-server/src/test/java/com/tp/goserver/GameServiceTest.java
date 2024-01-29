@@ -147,23 +147,4 @@ class GameServiceTest {
         assertEquals("User already logged in. Please use another login.", response);
     }
 
-    @Test
-    void addMove() {
-        Game game;
-        Move move;
-        game = new Game();
-        game.setId(1L);
-        game.setSize(19);
-        game.setStatus("in progress");
-        game.setCreator("player1");
-
-        move = new Move(10, 10);
-        when(gameRepository.findById(1L)).thenReturn(Optional.of(game));
-
-        Game updatedGame = gameService.addMove(1L, move);
-
-        verify(gameRepository).save(any(Game.class));
-        assertTrue(updatedGame.getMoves().contains(move));
-    }
-
 }

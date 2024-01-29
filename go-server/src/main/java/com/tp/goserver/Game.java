@@ -35,6 +35,10 @@ public class Game {
         return moves;
     }
 
+    public void setMovesJson(String moves) {
+        movesJson = moves;
+    }
+
     private void updateMovesJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {

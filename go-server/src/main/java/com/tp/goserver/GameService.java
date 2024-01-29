@@ -78,8 +78,10 @@ public class GameService {
         }
 
         Game game = gameOptional.get();
-        game.loadMovesFromJson();
-        game.addMove(move);
+        String movesStr = game.getMovesJson();
+
+        movesStr = StringMoves.appendMoveToString(movesStr, move.getX(), move.getY());
+        game.setMovesJson(movesStr);
         gameRepository.save(game);
 
         return game;

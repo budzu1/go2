@@ -1,5 +1,5 @@
 package com.tp.goserver;
 
-public class Repeat {
+public class Replay {
 
 }
