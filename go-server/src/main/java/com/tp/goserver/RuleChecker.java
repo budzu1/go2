@@ -7,9 +7,18 @@ public class RuleChecker implements IRuleChecker {
     private Liberties liberties;
 
     public boolean ifCanPlace(Board board, int col, int row, Stone stone) {
-
+        Board tempBoard = board;
         if (board.getStones().get(col).get(row) != Stone.EMPTY) {
             return false;
+        }
+        tempBoard= placeStone(board, col, row, stone);
+
+        // Sprawdzamy, czy ruch prowadzi do sytuacji samobójstwa
+        if (isSuicidalMove(tempBoard, col, row, stone)) {
+            // Jeśli tak, to sprawdzamy, czy zbije przeciwników
+            if (!willCaptureOpponents(tempBoard, col, row, stone)) {
+                return false;
+            }
         }
 
         ArrayList<ArrayList<Stone>> tempArray = board.getStones();
@@ -90,5 +99,42 @@ public class RuleChecker implements IRuleChecker {
 
     private boolean isValidPosition(Board board, int col, int row) {
         return col >= 0 && col < board.getStones().size() && row >= 0 && row < board.getStones().size();
+    }
+    private boolean isSuicidalMove(Board board, int col, int row, Stone stone) {
+        // Sprawdzamy, czy ruch prowadzi do sytuacji samobójstwa
+        board = placeStone(board, col, row, stone);
+        Liberties newLiberties = new Liberties(board.getStones().size());
+        newLiberties.updateLiberties(board);
+
+        // Jeśli grupa kamieni nie ma oddechów, to ruch jest samobójczy
+        return liberties.getLiberties(col, row) == 0;
+    }
+    private boolean willCaptureOpponents(Board board, int col, int row, Stone stone) {
+        // Symulujemy ruch, aby sprawdzić, czy zbije przeciwników
+        board = placeStone(board, col, row, stone);
+
+        // Sprawdzamy, czy po ruchu nastąpiło zbicie przeciwników
+        boolean opponentsCaptured = false;
+
+        for (int c = 0; c < board.getStones().size(); c++) {
+            for (int r = 0; r < board.getStones().size(); r++) {
+                Stone opponent = (stone == Stone.BLACK) ? Stone.WHITE : Stone.BLACK;
+                if (board.getStones().get(c).get(r) == opponent) {
+                    Liberties opponentLiberties = new Liberties(board.getStones().size());
+                    opponentLiberties.updateLiberties(board);
+
+                    // Jeśli przeciwnik stracił wszystkie oddechy, to został zbity
+                    if (opponentLiberties.getLiberties(c, r) == 0) {
+                        opponentsCaptured = true;
+                        break;
+                    }
+                }
+            }
+            if (opponentsCaptured) {
+                break;
+            }
+        }
+
+        return opponentsCaptured;
     }
 }

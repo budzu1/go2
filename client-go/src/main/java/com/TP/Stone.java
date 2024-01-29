@@ -3,8 +3,8 @@ package com.TP;
 import javafx.scene.shape.Circle;
 public class Stone extends Circle {
     private final double cellSize;
-    private int row;
-    private int col;
+    final private int row;
+    final private int col;
 
     public Stone(double cellSize,int row, int col ) {
         this.cellSize=cellSize;
