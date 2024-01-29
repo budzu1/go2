@@ -46,9 +46,8 @@ public class Goban extends Pane {
             }
             board.add(row);
         }
-        // to trzeba gdzies przeniesc
+
         initBoard();
-        // i to tez
         setOnMouseClicked((MouseEvent e) -> {
             int row = (int) Math.floor(e.getX() / cellSize) + 1;
             int col = (int) Math.floor(e.getY() / cellSize) + 1;
@@ -68,7 +67,6 @@ public class Goban extends Pane {
         });
     }
 
-    // sluzy do wyswietlania stworzonej planszy
     public void createGame(Goban goban) {
         Stage primaryStage = new Stage();
         StackPane root = new StackPane();
@@ -83,7 +81,6 @@ public class Goban extends Pane {
         refresh.start();
     }
 
-    // update planszy i kamieni za pomoca tablicy
     public void updateGoban() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -100,9 +97,7 @@ public class Goban extends Pane {
         }
 
 
-    /*
-     * w sumie to nie wiem czy bedzie potrzebne bo mamy updateGoban()
-     */
+
     public double getStoneX(int row) {
 
         return (row - 1) * cellSize + cellSize / 2;
@@ -152,13 +147,10 @@ public class Goban extends Pane {
         stone.setRadius(cellSize / 4);
         stone.setFill(color);
 
-        // Find the center of the black rectangle
         double cellX = (row - 1) * cellSize + cellSize / 2;
         double cellY = (col - 1) * cellSize + cellSize / 2;
 
-        // Check if the mouse click occurred within the bounds of the board
         if (cellX >= 2 && cellX < size * cellSize && cellY >= 2 && cellY < size * cellSize) {
-            // Adjust the stone's position to be at the center of the black rectangle
             stone.setCenterX(cellX);
             stone.setCenterY(cellY);
             getChildren().add(stone);
@@ -185,17 +177,7 @@ public class Goban extends Pane {
             return null;
         });
     }
-    private void removeStone(int row, int col) {
-        // Utwórz iterator do bezpiecznego usuwania elementów podczas iteracji
-        Iterator<Stone> iterator = stones.iterator();
-        while (iterator.hasNext()) {
-            Stone stone = iterator.next();
-            if (stone.getRow() == row && stone.getCol() == col) {
-                getChildren().remove(stone);
-                iterator.remove(); // Użyj iteratora do bezpiecznego usunięcia elementu
-            }
-        }
-    }
+
 
     private void sendRequest() {
         CompletableFuture<String> responseFuture = NetworkUtil.sendDoublePostRequest("/game/refresh", "gameId",
@@ -223,7 +205,17 @@ public class Goban extends Pane {
         });
     }
 
-
+    private void removeStone(int row, int col) {
+        // Utwórz iterator do bezpiecznego usuwania elementów podczas iteracji
+        Iterator<Stone> iterator = stones.iterator();
+        while (iterator.hasNext()) {
+            Stone stone = iterator.next();
+            if (stone.getRow() == row && stone.getCol() == col) {
+                getChildren().remove(stone);
+                iterator.remove(); // Użyj iteratora do bezpiecznego usunięcia elementu
+            }
+        }
+    }
     public void setBoard(ArrayList<ArrayList<Integer>> board) {
         this.board = board;
     }
