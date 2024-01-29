@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class RuleChecker implements IRuleChecker {
     private int size;
+    private int points;
     private Liberties liberties;
 
     public boolean ifCanPlace(Board board, int col, int row, Stone stone) {
@@ -86,7 +87,7 @@ public class RuleChecker implements IRuleChecker {
         if (!isValidPosition(board, col, row) || visited[col][row] || board.getStones().get(col).get(row) != stone) {
             return;
         }
-
+        points++;
         visited[col][row] = true;
 
         board.getStones().get(col).set(row, Stone.EMPTY);
@@ -134,7 +135,13 @@ public class RuleChecker implements IRuleChecker {
                 break;
             }
         }
-
         return opponentsCaptured;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    public int getPoints(){
+        return points;
     }
 }
