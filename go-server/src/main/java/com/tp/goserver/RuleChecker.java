@@ -1,10 +1,12 @@
 package com.tp.goserver;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class RuleChecker implements IRuleChecker {
     private int size;
-    private int points;
+    private int blackpoints=0;
+    private int whitepoints=6;
     private Liberties liberties;
 
     public boolean ifCanPlace(Board board, int col, int row, Stone stone) {
@@ -87,7 +89,12 @@ public class RuleChecker implements IRuleChecker {
         if (!isValidPosition(board, col, row) || visited[col][row] || board.getStones().get(col).get(row) != stone) {
             return;
         }
-        points++;
+        if(stone==Stone.BLACK) {
+            whitepoints++;
+        }
+        if(stone==Stone.WHITE) {
+            blackpoints++;
+        }
         visited[col][row] = true;
 
         board.getStones().get(col).set(row, Stone.EMPTY);
@@ -138,10 +145,10 @@ public class RuleChecker implements IRuleChecker {
         return opponentsCaptured;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public int getBlackPoints(){
+        return blackpoints;
     }
-    public int getPoints(){
-        return points;
+    public int getWhitePoints(){
+        return whitepoints;
     }
 }
