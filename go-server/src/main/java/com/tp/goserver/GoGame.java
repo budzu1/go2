@@ -118,4 +118,11 @@ public class GoGame {
     public void setWinner(String winner) {
         this.winner = winner;
     }
+
+    public int getWhitePoints(){
+        return rules.getWhitePoints();
+    }
+    public int getBlackPoints(){
+        return rules.getBlackPoints();
+    }
 }

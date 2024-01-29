@@ -3,11 +3,14 @@ package com.tp.goserver;
 import java.util.ArrayList;
 
 public class RuleChecker implements IRuleChecker {
-    private int size;
+    private final int size;
+    private int blackpoints=0;
+    private int whitepoints=6;
     private Liberties liberties;
 
     public boolean ifCanPlace(Board board, int col, int row, Stone stone) {
-        Board tempBoard = board;
+        Board tempBoard = new Board(size);
+        tempBoard=board;
         if (board.getStones().get(col).get(row) != Stone.EMPTY) {
             return false;
         }
@@ -37,9 +40,7 @@ public class RuleChecker implements IRuleChecker {
     public Board placeStone(Board board, int col, int row, Stone stone) {
 
         liberties.updateLiberties(board);
-        System.out.println("Before stone removal:\n" + board);
         board = removeStones(board, liberties);
-        System.out.println("After stone removal:\n" + board);
         Board toReturn = new Board(board.getStones().size());
         toReturn = board;
         toReturn.getStones().get(col).set(row, stone);
@@ -86,7 +87,12 @@ public class RuleChecker implements IRuleChecker {
         if (!isValidPosition(board, col, row) || visited[col][row] || board.getStones().get(col).get(row) != stone) {
             return;
         }
-
+        if(stone==Stone.BLACK) {
+            whitepoints++;
+        }
+        if(stone==Stone.WHITE) {
+            blackpoints++;
+        }
         visited[col][row] = true;
 
         board.getStones().get(col).set(row, Stone.EMPTY);
@@ -134,7 +140,13 @@ public class RuleChecker implements IRuleChecker {
                 break;
             }
         }
-
         return opponentsCaptured;
+    }
+
+    public int getBlackPoints(){
+        return blackpoints;
+    }
+    public int getWhitePoints(){
+        return whitepoints;
     }
 }
