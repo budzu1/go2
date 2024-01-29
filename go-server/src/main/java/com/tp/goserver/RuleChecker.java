@@ -12,6 +12,10 @@ public class RuleChecker implements IRuleChecker {
             return false;
         }
 
+        ArrayList<ArrayList<Stone>> tempArray = board.getStones();
+        tempArray.get(col).set(row, stone);
+
+        // to ma zostać na samym końcu w miare możliwości V !!!!!!!!!
 
         return true;
     }
@@ -22,8 +26,6 @@ public class RuleChecker implements IRuleChecker {
     }
 
     public Board placeStone(Board board, int col, int row, Stone stone) {
-
-
 
         liberties.updateLiberties(board);
         System.out.println("Before stone removal:\n" + board);

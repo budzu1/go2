@@ -53,10 +53,10 @@ public class GameController {
     public ResponseEntity<Boolean> makeMove(@RequestParam int row, @RequestParam int col, @RequestParam String login,
             @RequestParam Long gameId) {
 
-        System.out.println(row);
-        System.out.println(col);
-
         activeGameService.makeMove(gameId, row - 1, col - 1, login);
+
+        // gameService.addMove(gameId, new Move(row, col));
+
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
@@ -65,8 +65,6 @@ public class GameController {
             @RequestParam Long gameId) {
 
         ArrayToSend arrayToSend = new ArrayToSend(activeGameService.getArray(gameId, login));
-
-        System.out.println("array size: " + arrayToSend.getToSend().size());
 
         ObjectMapper objectMapper = new ObjectMapper();
 

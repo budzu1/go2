@@ -14,6 +14,7 @@ public class Board {
         addStones(n);
         this.n = n;
     }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -25,7 +26,6 @@ public class Board {
         }
         return result.toString();
     }
-
 
     private void addStones(int n) {
 
@@ -78,6 +78,14 @@ public class Board {
         }
 
         return toSend;
+    }
+
+    public ArrayList<ArrayList<Stone>> getLast() {
+        return last;
+    }
+
+    public void setLast(ArrayList<ArrayList<Stone>> last) {
+        this.last = last;
     }
 
 }
