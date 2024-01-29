@@ -99,4 +99,14 @@ public class GameService {
         return game;
     }
 
+    public Game getGame(Long gameId) {
+        Optional<Game> gameOptional = gameRepository.findById(gameId);
+        if (!gameOptional.isPresent()) {
+            throw new RuntimeException("Game not found");
+        }
+
+        Game game = gameOptional.get();
+        return game;
+    }
+
 }

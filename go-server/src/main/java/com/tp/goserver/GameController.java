@@ -20,6 +20,9 @@ public class GameController {
     @Autowired
     private ActiveGamesService activeGameService;
 
+    @Autowired
+    private ReplayService replayService;
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username) {
         String loginMessage = gameService.loginUser(username);
@@ -112,6 +115,53 @@ public class GameController {
             gameService.changeStatusFinish(gameId);
             return new ResponseEntity<>(winner, HttpStatus.OK);
         }
+    }
+
+    @PostMapping("/replayStart")
+    public ResponseEntity<Boolean> replayStart(@RequestParam Long gameId) {
+        Game tempGame = gameService.getGame(gameId);
+        replayService.createReplay(gameId, tempGame.getSize(), StringMoves.stringToMoveList(tempGame.getMovesJson()));
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("/getNext")
+    public ResponseEntity<String> getNext(@RequestParam Long gameId) {
+        ArrayToSend arrayToSend = new ArrayToSend(replayService.getNext(gameId));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            String jsonString = objectMapper.writeValueAsString(arrayToSend);
+            return new ResponseEntity<>(jsonString, HttpStatus.OK);
+            // jsonString now contains the JSON representation of arrayToSend
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>("error", HttpStatus.OK);
+    }
+
+    @PostMapping("/getPrev")
+    public ResponseEntity<String> getPrev(@RequestParam Long gameId) {
+        ArrayToSend arrayToSend = new ArrayToSend(replayService.getPrev(gameId));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            String jsonString = objectMapper.writeValueAsString(arrayToSend);
+            return new ResponseEntity<>(jsonString, HttpStatus.OK);
+            // jsonString now contains the JSON representation of arrayToSend
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>("error", HttpStatus.OK);
+    }
+
+    @PostMapping("/removeReplay")
+    public ResponseEntity<Boolean> removeReplay(@RequestParam Long gameId) {
+        replayService.removeReplay(gameId);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
 }

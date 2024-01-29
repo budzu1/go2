@@ -27,6 +27,10 @@ public class MainScreen extends Parent {
 
         Button createGameButton = new Button("Create Game");
         Button joinGameButton = new Button("Join Game");
+<<<<<<< HEAD
+        Button replayButton = new Button("Replay");
+=======
+>>>>>>> 9cd5bf7e07ae7bf1d0ec6a907970e3f0ad83923d
 
         createGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -42,9 +46,47 @@ public class MainScreen extends Parent {
             }
         });
 
+<<<<<<< HEAD
+        replayButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                replay(new Stage());
+            }
+        });
+
+        layout.getChildren().addAll(createGameButton, joinGameButton, replayButton);
+=======
         layout.getChildren().addAll(createGameButton, joinGameButton);
+>>>>>>> 9cd5bf7e07ae7bf1d0ec6a907970e3f0ad83923d
 
         getChildren().add(layout);
+    }
+
+    private void replay(Stage primaryStage) {
+        Stage replayStage = new Stage();
+
+        VBox layout = new VBox(10);
+
+        TextField inputField = new TextField();
+        inputField.setPromptText("Enter something here");
+
+        Button confirmButton = new Button("Confirm");
+
+        confirmButton.setOnAction(event -> {
+            String input = inputField.getText();
+            replayStage.close();
+            ReplayBoard replayBoard = new ReplayBoard(19, 20); // Example size and cellSize
+            replayBoard.createReplayWindow();
+        });
+
+        layout.getChildren().addAll(inputField, confirmButton);
+
+        Scene scene = new Scene(layout, 300, 120);
+        replayStage.setScene(scene);
+
+        replayStage.setTitle("Replay Input");
+        replayStage.initOwner(primaryStage);
+        replayStage.showAndWait();
     }
 
     private void createGame(Stage primaryStage) {
