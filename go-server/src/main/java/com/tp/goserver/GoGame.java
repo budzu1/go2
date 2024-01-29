@@ -146,7 +146,16 @@ public class GoGame {
     public int getBlackPoints() {
         return rules.getBlackPoints();
     }
+    public void determineWinner() {
+        int blackPoints = getBlackPoints();
+        int whitePoints = getWhitePoints();
 
+        if (blackPoints > whitePoints) {
+            setWinner(getBlack());
+        } else {
+            setWinner(getWhite());
+        }
+    }
     public void assume(String login) {
         currentState.assume(this, login);
 

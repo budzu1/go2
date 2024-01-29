@@ -24,6 +24,8 @@ public class PauseState implements GoGameState {
     public void assume(GoGame game, String login) {
         if (login == game.getBlack() && game.isWhiteAssume() || login == game.getWhite() && game.isBlackAssume()) {
             // tutaj rozstrzygnbiecie a pózniej wpisz do winner login zwyciezcy
+                game.determineWinner();
+                game.setState(new EndState());
         } else if (login == game.getBlack()) {
             game.setBlackAssume(true);
         } else if (login == game.getWhite()) {

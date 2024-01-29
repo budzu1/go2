@@ -55,5 +55,4 @@ public class EndState implements GoGameState {
         // TODO Auto-generated method stub
 
     }
-
 }
