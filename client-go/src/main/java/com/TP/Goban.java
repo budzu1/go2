@@ -115,7 +115,6 @@ public class Goban extends Pane {
         }
     }
 
-
     private void initBoard() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -240,6 +239,7 @@ public class Goban extends Pane {
         Button passButton = new Button("Pass");
         Button giveUpButton = new Button("Give Up");
         Button continueButton = new Button("Continue");
+        Button assumeButton = new Button("Continue");
 
         // Set actions for buttons
         passButton.setOnAction(event -> {
@@ -254,15 +254,37 @@ public class Goban extends Pane {
             sendPContinue();
         });
 
+        assumeButton.setOnAction(event -> {
+            sendAssume();
+        });
+
         // HBox for holding buttons
         HBox buttonBox = new HBox(10); // 10 is spacing between buttons
-        buttonBox.getChildren().addAll(passButton, giveUpButton, continueButton);
+        buttonBox.getChildren().addAll(passButton, giveUpButton, continueButton, assumeButton);
 
         // Set the HBox as the scene for the new stage
         Scene buttonScene = new Scene(buttonBox);
         buttonStage.setTitle("Game Options");
         buttonStage.setScene(buttonScene);
         buttonStage.show();
+    }
+
+    private void sendAssume() {
+        CompletableFuture<String> responseFuture = NetworkUtil.sendDoublePostRequest("/game/assume", "gameId",
+                Long.toString(GameSession.getInstance().getGameId()), "login", GameSession.getInstance().getUserId());
+
+        responseFuture.thenAccept(response -> {
+            try {
+                int size = Integer.parseInt(response);
+                System.out.println("Size: " + size);
+                GameSession.getInstance().setSize(size);
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing game ID: " + response);
+            }
+        }).exceptionally(ex -> {
+            System.err.println("An error occurred: " + ex.getMessage());
+            return null;
+        });
     }
 
     private void sendPass() {
