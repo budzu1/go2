@@ -68,7 +68,7 @@ public class MainScreen extends Parent {
         confirmButton.setOnAction(event -> {
             String input = inputField.getText();
             replayStage.close();
-            ReplayBoard replayBoard = new ReplayBoard(19, 20); // Example size and cellSize
+            ReplayBoard replayBoard = new ReplayBoard(19, 20, input); // Example size and cellSize
             replayBoard.createReplayWindow();
         });
 
