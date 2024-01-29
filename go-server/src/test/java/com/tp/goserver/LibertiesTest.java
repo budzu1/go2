@@ -27,6 +27,7 @@ public class LibertiesTest {
         board.getStones().get(5).set(4,Stone.WHITE);
         board.getStones().get(6).set(5,Stone.WHITE);
         board.getStones().get(6).set(6,Stone.WHITE);
+        board.getStones().get(0).set(0,Stone.WHITE);
 
 
         // Aktualizujemy swobody kamienia
@@ -37,5 +38,6 @@ public class LibertiesTest {
         assertEquals(2, liberties.getLiberties(6,6));
         assertEquals(2, liberties.getLiberties(5,6));
         assertEquals(2, liberties.getLiberties(6,5));
+        assertEquals(2, liberties.getLiberties(0,0));
     }
 }
