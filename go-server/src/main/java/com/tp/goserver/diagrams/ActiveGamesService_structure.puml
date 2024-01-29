@@ -1,0 +1,430 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.tp.goserver.ActiveGamesService",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_3708 { 
+   	label=tp
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_2122490531 { 
+   	label=goserver
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   ActiveGamesService540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ActiveGamesService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   games: HashMap&lt;Long, GoGame&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ assume(id: Long, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createGame(id: Long, game: Game)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getArray(id: Long, login: String): ArrayList&lt;ArrayList&lt;Integer&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getWinner(id: Long): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(id: Long, login: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(id: Long): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ makeMove(id: Long, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(id: Long, login: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(id: Long, login: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeGame(id: Long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startGame(id: Long, game: Game)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+BlackState540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)BlackState</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(game: GoGame, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(game: GoGame, opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(game: GoGame, login: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Board540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Board</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   last: ArrayList&lt;ArrayList&lt;Stone&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   n: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   stones: ArrayList&lt;ArrayList&lt;Stone&gt;&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- addStones(n: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prepareToSend(): ArrayList&lt;ArrayList&lt;Integer&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ saveLastMove(last: ArrayList&lt;ArrayList&lt;Stone&gt;&gt;)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CountingState540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CountingState</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(game: GoGame, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(game: GoGame, opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(game: GoGame, login: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+EndState540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)EndState</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(game: GoGame, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(game: GoGame, opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(game: GoGame, login: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Game540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Game</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   bot: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   creator: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   moves: ArrayList&lt;Move&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   movesJson: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   opponent: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   size: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   status: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   winner: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addMove(move: Move)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ loadMovesFromJson()</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateMovesJson()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GameController540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GameController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   activeGameService: ActiveGamesService [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gameService: GameService [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   replayService: ReplayService [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBotToGame(gameId: Long): ResponseEntity&lt;Game&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(gameId: Long, login: String): ResponseEntity&lt;Boolean&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createGame(creator: String, size: int): ResponseEntity&lt;Long&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getNext(gameId: Long): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getPrev(gameId: Long): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getWinner(gameId: Long): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(gameId: Long, login: String): ResponseEntity&lt;Boolean&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ joinGame(gameId: Long, opponent: String): ResponseEntity&lt;Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ login(username: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ makeMove(row: int, col: int, login: String, gameId: Long): ResponseEntity&lt;Boolean&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(gameId: Long, login: String): ResponseEntity&lt;Boolean&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(gameId: Long, login: String): ResponseEntity&lt;Boolean&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ refresh(login: String, gameId: Long): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeReplay(gameId: Long): ResponseEntity&lt;Boolean&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ replayStart(gameId: Long): ResponseEntity&lt;Boolean&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GoGame540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GoGame</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   black: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   blackAssume: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   board: Board [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   currentState: GoGameState [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   ifPassed: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   rules: IRuleChecker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   sqlGame: Game [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   white: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   whiteAssume: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   winner: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ determineWinner()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ start(game: Game)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Liberties540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Liberties</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   liberties: ArrayList&lt;ArrayList&lt;Integer&gt;&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addLiberties(board: Board, col: int, row: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkEmptyIntersections(board: Board, col: int, row: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getLiberties(col: int, row: int): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- isValidPosition(board: Board, col: int, row: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- stoneChainLiberties(board: Board, col: int, row: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateLiberties(board: Board): ArrayList&lt;ArrayList&lt;Integer&gt;&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Move540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Move</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   x: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   y: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PauseState540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PauseState</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(game: GoGame, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(game: GoGame, opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(game: GoGame, login: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+RuleChecker540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)RuleChecker</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   blackpoints: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   liberties: Liberties [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   size: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   whitepoints: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- hasLibertyInStoneGroup(board: Board, col: int, row: int, stone: Stone, visited: boolean[][]): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanPlace(board: Board, col: int, row: int, stone: Stone): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- isSuicidalMove(board: Board, col: int, row: int, stone: Stone): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- isValidPosition(board: Board, col: int, row: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ placeStone(board: Board, col: int, row: int, stone: Stone): Board</TD></TR>
+<TR><TD ALIGN="LEFT" >- removeStoneGroup(board: Board, col: int, row: int, stone: Stone)</TD></TR>
+<TR><TD ALIGN="LEFT" >- removeStoneGroupRecursive(board: Board, col: int, row: int, stone: Stone, visited: boolean[][])</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeStones(board: Board, liberties: Liberties): Board</TD></TR>
+<TR><TD ALIGN="LEFT" >- willCaptureOpponents(board: Board, col: int, row: int, stone: Stone): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+WaitingState540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)WaitingState</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(game: GoGame, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(game: GoGame, opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(game: GoGame, login: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+WhiteState540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)WhiteState</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(game: GoGame, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(game: GoGame, opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(game: GoGame)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(game: GoGame, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(game: GoGame, login: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+ActiveGamesService540499056 -> Board540499056[label="getArray() -> prepareToSend()"];
+ActiveGamesService540499056 -> GoGame540499056[label="games
+[0..*]"];
+Game540499056 -> Move540499056[label="moves
+[0..*]"];
+GameController540499056 -> ActiveGamesService540499056[label="activeGameService
+[1]"];
+GoGame540499056 -> BlackState540499056[arrowhead=none];
+GoGame540499056 -> Board540499056[label="board
+[0..1]"];
+GoGame540499056 -> CountingState540499056[arrowhead=none];
+GoGame540499056 -> EndState540499056[arrowhead=none];
+GoGame540499056 -> Game540499056[label="sqlGame
+[0..1]"];
+GoGame540499056 -> PauseState540499056[arrowhead=none];
+GoGame540499056 -> RuleChecker540499056[arrowhead=none];
+GoGame540499056 -> WaitingState540499056[arrowhead=none];
+GoGame540499056 -> WhiteState540499056[arrowhead=none];
+PauseState540499056 -> GoGame540499056[label="assume() -> determineWinner()"];
+RuleChecker540499056 -> Liberties540499056[label="liberties
+[0..1]"];
+    
+}
+@enduml
