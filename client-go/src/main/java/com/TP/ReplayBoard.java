@@ -1,5 +1,7 @@
 package com.TP;
 
+import java.util.concurrent.CompletableFuture;
+
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,10 +14,13 @@ import javafx.stage.Stage;
 public class ReplayBoard extends Pane {
     private final int size;
     private final double cellSize;
+    private ReplayMatrix rm;
+    private String id;
 
-    public ReplayBoard(int size, double cellSize) {
+    public ReplayBoard(int size, double cellSize, String id) {
         this.size = size;
         this.cellSize = cellSize;
+        this.id = id;
     }
 
     public void createReplayWindow() {
@@ -24,7 +29,10 @@ public class ReplayBoard extends Pane {
 
         // Initialize buttons and set their actions
         Button replayStartButton = new Button("Replay Start");
-        replayStartButton.setOnAction(event -> sendReplayStartRequest());
+        replayStartButton.setOnAction(event -> {
+            sendReplayStartRequest();
+
+        });
 
         Button getNextButton = new Button("Get Next");
         getNextButton.setOnAction(event -> sendGetNextRequest());
@@ -46,7 +54,19 @@ public class ReplayBoard extends Pane {
     }
 
     private void sendReplayStartRequest() {
-        // Implement REST API call to /replayStart
+        CompletableFuture<String> responseFuture = NetworkUtil.sendPostRequest("/game/replayStart", "gameId", id);
+
+        responseFuture.thenAccept(response -> {
+            try {
+                int size = Integer.parseInt(response);
+                rm = new ReplayMatrix(size, 30.0, 1);
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing game ID: " + response);
+            }
+        }).exceptionally(ex -> {
+            System.err.println("An error occurred: " + ex.getMessage());
+            return null;
+        });
     }
 
     private void sendGetNextRequest() {
@@ -60,6 +80,4 @@ public class ReplayBoard extends Pane {
     private void sendRemoveReplayRequest() {
         // Implement REST API call to /removeReplay
     }
-
-    // Other methods (e.g., to update the board)...
 }

@@ -27,6 +27,7 @@ public class Goban extends Pane {
     private final int color;
     public ArrayList<ArrayList<Integer>> board;
     private List<Stone> stones = new ArrayList<>();
+
     private int threadCheck = 0;
 
     Thread refresh = new Thread(() -> {

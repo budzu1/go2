@@ -118,10 +118,10 @@ public class GameController {
     }
 
     @PostMapping("/replayStart")
-    public ResponseEntity<Boolean> replayStart(@RequestParam Long gameId) {
+    public ResponseEntity<Integer> replayStart(@RequestParam Long gameId) {
         Game tempGame = gameService.getGame(gameId);
         replayService.createReplay(gameId, tempGame.getSize(), StringMoves.stringToMoveList(tempGame.getMovesJson()));
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(tempGame.getSize(), HttpStatus.OK);
     }
 
     @PostMapping("/getNext")
