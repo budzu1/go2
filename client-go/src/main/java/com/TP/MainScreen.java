@@ -43,6 +43,7 @@ public class MainScreen extends Parent {
             }
         });
 
+
         replayButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -50,7 +51,7 @@ public class MainScreen extends Parent {
             }
         });
 
-        layout.getChildren().addAll(createGameButton, joinGameButton, replayButton);
+        layout.getChildren().addAll(createGameButton, joinGameButton,replayButton);
 
         getChildren().add(layout);
     }
@@ -106,15 +107,7 @@ public class MainScreen extends Parent {
                     break;
             }
 
-            Alert modeAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            modeAlert.setTitle("Choose Game Mode");
-            modeAlert.setHeaderText("Select the game mode:");
-            ButtonType playerModeButton = new ButtonType("Player vs Player");
-            ButtonType botModeButton = new ButtonType("Player vs Bot");
-            modeAlert.getButtonTypes().setAll(playerModeButton, botModeButton);
 
-            modeAlert.showAndWait().ifPresent(modeResult -> {
-                if (modeResult == playerModeButton) {
                     // Tryb gry z graczem
                     GameSession.getInstance().setSize(boardSize);
                     sendCreateGame(GameSession.getInstance().getUserId(), GameSession.getInstance().getSize());
@@ -126,21 +119,7 @@ public class MainScreen extends Parent {
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
-                } else if (modeResult == botModeButton) {
-                    // Tryb gry z botem
-                    // Tutaj możesz dodać logikę tworzenia gry z botem, na przykład:
-                    Goban gobanWithBot = new Goban(boardSize, cellSize, 2); // Przyjmuję, że 2 to identyfikator bota
-                    try {
-                        URI uri = new URI("ws://localhost:8080/client");
-                        SimpleWebSocketClient swc = new SimpleWebSocketClient(uri, gobanWithBot);
-                        gobanWithBot.createGame(gobanWithBot);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        });
-
+                });
     }
 
     private void joinGame(Stage primaryStage) {
