@@ -1,0 +1,249 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.tp.goserver.Liberties",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_3708 { 
+   	label=tp
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_2122490531 { 
+   	label=goserver
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   ActiveGamesService540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ActiveGamesService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   games: HashMap&lt;Long, GoGame&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ assume(id: Long, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createGame(id: Long, game: Game)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getArray(id: Long, login: String): ArrayList&lt;ArrayList&lt;Integer&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getWinner(id: Long): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(id: Long, login: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(id: Long): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ makeMove(id: Long, row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(id: Long, login: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(id: Long, login: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeGame(id: Long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startGame(id: Long, game: Game)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GoGame540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GoGame</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   black: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   blackAssume: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   board: Board [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   currentState: GoGameState [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   ifPassed: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   rules: IRuleChecker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   sqlGame: Game [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   white: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   whiteAssume: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   winner: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBot()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMove(row: int, col: int, login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addOpponent(opponent: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ assume(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ determineWinner()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ giveUp(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanChange(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pContinue(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pass(login: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ start(game: Game)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Liberties540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Liberties</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   liberties: ArrayList&lt;ArrayList&lt;Integer&gt;&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addLiberties(board: Board, col: int, row: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkEmptyIntersections(board: Board, col: int, row: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getLiberties(col: int, row: int): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- isValidPosition(board: Board, col: int, row: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- stoneChainLiberties(board: Board, col: int, row: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateLiberties(board: Board): ArrayList&lt;ArrayList&lt;Integer&gt;&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Replay540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Replay</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   boards: ArrayList&lt;Board&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   currBoard: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   rules: IRuleChecker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   state: ReplayState [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addBoard(board: Board)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getBoard(n: int): Board</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ReplayService540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ReplayService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   replays: HashMap&lt;Long, Replay&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ createReplay(id: Long, size: int, moves: ArrayList&lt;Move&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getNext(id: Long): ArrayList&lt;ArrayList&lt;Integer&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getPrev(id: Long): ArrayList&lt;ArrayList&lt;Integer&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeReplay(id: Long)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+RuleChecker540499056[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)RuleChecker</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   blackpoints: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   liberties: Liberties [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   size: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   whitepoints: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- hasLibertyInStoneGroup(board: Board, col: int, row: int, stone: Stone, visited: boolean[][]): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ifCanPlace(board: Board, col: int, row: int, stone: Stone): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- isSuicidalMove(board: Board, col: int, row: int, stone: Stone): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- isValidPosition(board: Board, col: int, row: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ placeStone(board: Board, col: int, row: int, stone: Stone): Board</TD></TR>
+<TR><TD ALIGN="LEFT" >- removeStoneGroup(board: Board, col: int, row: int, stone: Stone)</TD></TR>
+<TR><TD ALIGN="LEFT" >- removeStoneGroupRecursive(board: Board, col: int, row: int, stone: Stone, visited: boolean[][])</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeStones(board: Board, liberties: Liberties): Board</TD></TR>
+<TR><TD ALIGN="LEFT" >- willCaptureOpponents(board: Board, col: int, row: int, stone: Stone): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+ActiveGamesService540499056 -> GoGame540499056[label="games
+[0..*]"];
+GoGame540499056 -> RuleChecker540499056[label="rules
+[0..1]", arrowhead=none];
+Replay540499056 -> RuleChecker540499056[label="rules
+[0..1]", arrowhead=none];
+ReplayService540499056 -> Replay540499056[label="replays
+[0..*]"];
+RuleChecker540499056 -> Liberties540499056[label="liberties
+[0..1]"];
+    
+}
+@enduml

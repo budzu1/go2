@@ -1,0 +1,204 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.TP.MainScreen",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_2684 { 
+   	label=TP
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Goban1354876407[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Goban</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   board: ArrayList&lt;ArrayList&lt;Integer&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   cellSize: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   color: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   refresh: Thread [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   size: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   stones: List&lt;Stone&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   threadCheck: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   winnerHunt: Thread [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- addStone(row: int, col: int, color: Color)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createButtonWindow()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createGame(goban: Goban)</TD></TR>
+<TR><TD ALIGN="LEFT" >- getCol(col: int): ArrayList&lt;Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- getRow(row: int): ArrayList&lt;Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- initBoard()</TD></TR>
+<TR><TD ALIGN="LEFT" >- removeStone(row: int, col: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendAssume()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendGetWinner()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendGiveUp()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendMakeMove(row: int, col: int, login: String, gameId: Long)</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendPContinue()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendPass()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendRequest()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ showMessageWindow(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateGoban()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MainScreen1354876407[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MainScreen</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   gameId: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   joinGameLatch: CountDownLatch [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createGame(primaryStage: Stage)</TD></TR>
+<TR><TD ALIGN="LEFT" >- joinGame(primaryStage: Stage)</TD></TR>
+<TR><TD ALIGN="LEFT" >- replay(primaryStage: Stage)</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendCreateGame(creator: String, size: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendJoinGame(login: String, gameId: Long)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+NetworkUtil1354876407[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)NetworkUtil</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ sendDoublePostRequest(endpoint: String, param: String, value: String, param2: String, value2: String): CompletableFuture&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ sendPostRequest(endpoint: String, param: String, value: String): CompletableFuture&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ sendQuadraPostRequest(endpoint: String, param: String, value: String, param2: String, value2: String, param3: String, value3: String, param4: String, value4: String): CompletableFuture&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ReplayBoard1354876407[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ReplayBoard</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cellSize: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   size: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ createReplayWindow()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendGetNextRequest()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendGetPrevRequest()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendRemoveReplayRequest()</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendReplayStartRequest()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Stone1354876407[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Stone</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cellSize: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   col: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   row: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ relocate(x: double, y: double)</TD></TR>
+<TR><TD ALIGN="LEFT" >- snapToCell(coord: double): double</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+'edges    
+Goban1354876407 -> Stone1354876407[label="stones
+[0..*]"];
+MainScreen1354876407 -> ReplayBoard1354876407[label="replay() -> createReplayWindow()"];
+    
+}
+@enduml
