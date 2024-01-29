@@ -27,10 +27,7 @@ public class MainScreen extends Parent {
 
         Button createGameButton = new Button("Create Game");
         Button joinGameButton = new Button("Join Game");
-<<<<<<< HEAD
         Button replayButton = new Button("Replay");
-=======
->>>>>>> 9cd5bf7e07ae7bf1d0ec6a907970e3f0ad83923d
 
         createGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -46,7 +43,6 @@ public class MainScreen extends Parent {
             }
         });
 
-<<<<<<< HEAD
         replayButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -55,9 +51,6 @@ public class MainScreen extends Parent {
         });
 
         layout.getChildren().addAll(createGameButton, joinGameButton, replayButton);
-=======
-        layout.getChildren().addAll(createGameButton, joinGameButton);
->>>>>>> 9cd5bf7e07ae7bf1d0ec6a907970e3f0ad83923d
 
         getChildren().add(layout);
     }

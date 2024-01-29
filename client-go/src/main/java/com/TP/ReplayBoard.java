@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 public class ReplayBoard extends Pane {
     private final int size;
     private final double cellSize;
-    // Other necessary fields...
 
     public ReplayBoard(int size, double cellSize) {
         this.size = size;
