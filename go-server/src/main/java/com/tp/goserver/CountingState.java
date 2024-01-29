@@ -18,6 +18,12 @@ public class CountingState implements GoGameState {
     }
 
     @Override
+    public void assume(GoGame game, String login) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public void end(GoGame game) {
         throw new IllegalStateException("No operations allowed in counting state");
     }

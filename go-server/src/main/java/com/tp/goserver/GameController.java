@@ -164,4 +164,10 @@ public class GameController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
+    @PostMapping("/assume")
+    public ResponseEntity<Boolean> assume(@RequestParam Long gameId, @RequestParam String login) {
+        activeGameService.assume(gameId, login);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
 }

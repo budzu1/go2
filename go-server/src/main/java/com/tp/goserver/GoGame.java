@@ -21,12 +21,32 @@ public class GoGame {
 
     private String winner;
 
+    private boolean blackAssume;
+
+    private boolean whiteAssume;
+
     Game sqlGame;
 
     public GoGame(Long id, Game game) {
         currentState = new WaitingState();
         sqlGame = game;
         board = new Board(sqlGame.getSize());
+    }
+
+    public boolean isBlackAssume() {
+        return blackAssume;
+    }
+
+    public void setBlackAssume(boolean blackAssume) {
+        this.blackAssume = blackAssume;
+    }
+
+    public boolean isWhiteAssume() {
+        return whiteAssume;
+    }
+
+    public void setWhiteAssume(boolean whiteAssume) {
+        this.whiteAssume = whiteAssume;
     }
 
     public void setState(GoGameState state) {
@@ -119,10 +139,16 @@ public class GoGame {
         this.winner = winner;
     }
 
-    public int getWhitePoints(){
+    public int getWhitePoints() {
         return rules.getWhitePoints();
     }
-    public int getBlackPoints(){
+
+    public int getBlackPoints() {
         return rules.getBlackPoints();
+    }
+
+    public void assume(String login) {
+        currentState.assume(this, login);
+
     }
 }

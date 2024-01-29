@@ -16,5 +16,7 @@ public interface GoGameState {
 
     void pContinue(GoGame game, String login);
 
+    void assume(GoGame game, String login);
+
     public boolean ifCanChange();
 }

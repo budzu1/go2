@@ -50,7 +50,11 @@ public class ActiveGamesService {
         return true;
     }
 
-    public String getWinner(Long id) {
+    public synchronized String getWinner(Long id) {
         return games.get(id).getWinner();
+    }
+
+    public synchronized void assume(Long id, String login) {
+        games.get(id).assume(login);
     }
 }

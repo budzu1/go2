@@ -13,6 +13,10 @@ public class WhiteState implements GoGameState {
     }
 
     @Override
+    public void assume(GoGame game, String login) {
+    }
+
+    @Override
     public void addMove(GoGame game, int row, int col, String login) {
         if (!login.equals(game.getWhite())) {
             return;

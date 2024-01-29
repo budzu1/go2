@@ -14,6 +14,18 @@ public class WaitingState implements GoGameState {
     }
 
     @Override
+    public void assume(GoGame game, String login) {
+        if (login == game.getBlack() && game.isWhiteAssume() || login == game.getWhite() && game.isBlackAssume()) {
+            // tutaj rozstrzygnbiecie a pózniej wpisz do winner login zwyciezcy
+        } else if (login == game.getBlack()) {
+            game.setBlackAssume(true);
+        } else if (login == game.getWhite()) {
+            game.setWhiteAssume(true);
+        }
+
+    }
+
+    @Override
     public void addMove(GoGame game, int row, int col, String login) {
         throw new IllegalStateException("Cannot add move in waiting state");
     }

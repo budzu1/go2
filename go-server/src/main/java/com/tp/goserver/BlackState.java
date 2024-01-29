@@ -61,6 +61,12 @@ public class BlackState implements GoGameState {
     }
 
     @Override
+    public void assume(GoGame game, String login) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public void giveUp(GoGame game, String login) {
         if (login.equals(game.getBlack())) {
             game.setWinner(game.getWhite());
